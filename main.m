@@ -1,5 +1,5 @@
 close all;clear
-addpath('C:\Users\fuxia\Documents\Thesis\code\prototyp\Data','skel2graph3d','skeleton3d')
+addpath('C:\Users\fuxia\Documents\Thesis\code\prototyp\Data','skel2graph3d','skeleton3d','src')
 para = param;
 load(para.datapath);
 img_stack_after = bildvorverarbeitung(img_stack, para);
