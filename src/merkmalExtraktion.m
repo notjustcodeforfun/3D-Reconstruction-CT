@@ -6,7 +6,7 @@ function m_out = merkmalExtraktion(img_in,para)
 % ------------------------Porenidentifikation
 m_out.porositaet  = porost(img_in);
 % ------------------------Steganalyse
-img_ausschnitt = img_in (150:200,150:200,1:50);
+img_ausschnitt = img_in (151:200,151:200,1:50);
 skel = Skeleton3D(img_ausschnitt);
 [~,node,link] = Skel2Graph3D(skel,0);
 w = size(skel,1);

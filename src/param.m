@@ -5,7 +5,7 @@ function output = param
 
 
 % ------------------------ Parameter von Umgebung
-output.dataTyp         = 0;         % 1 :CLSM  0:CT    
+output.dataTyp         = 1;         % 1 :CLSM  0:CT    
 output.Zyklen          = 10;        % Anzahl von Wiederholung der for-Schleife
 output.SwitchVolume    = true;     % Volumen Filter
 output.SwitchPorenV    = false;    % Porenverteilung

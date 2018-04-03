@@ -48,13 +48,10 @@ if merkmal.issteg
     
     fprintf(['Final result ---------\n1.  Porositaet = ' num2str(merkmal.porositaet*100) ' %%\n']);
     fprintf(['2.  Knotenanzahl = ' num2str(length(merkmal.steg.node)) ', davon ' num2str(Endknoten) '%% Endpunkte, ',num2str(Dreiknoten) '%% Knoten mit 3 Stegen, ',num2str(Vierknoten) '%% mit 4 Stegen\n']);
-     fprintf(['3.  Durchschnittliche Knotenlaenge = ' num2str(sum(sum_knoten)/length(sum_knoten)),'\n']);
+    fprintf(['3.  Durchschnittliche Knotenlaenge = ' num2str(sum(sum_knoten)/length(sum_knoten)),'\n']);
 else
-     fprintf('Es gibt keine Stege')
+    fprintf('Es gibt keine Stege')
 end
 % ------------------------ 3D-Darstellung
-% figure; MRI = isosurface(X,Y,Z,img_bin, 0.5);
-% axis equal
-
 
 end
