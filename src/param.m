@@ -6,7 +6,7 @@ function output = param
 
 % ------------------------ Parameter von Umgebung
 output.dataTyp         = 1;        % 1 :CLSM  0:CT    
-output.Zyklen          = 10;       % Anzahl von Wiederholung der for-Schleife
+output.Zyklen          = 1;       % Anzahl von Wiederholung der for-Schleife
 output.SwitchVolume    = true;     % Volumen Filter
 output.SwitchPorenV    = false;    % Porenverteilung
 output.ShowDetails     = true;     % Anzeigen des aktuellen Zustand 
@@ -22,9 +22,9 @@ output.Ki              = 0.0;      % I Glied der Regler
 output.ab              = 0.005;    % Abbruch Schwellwert
 % ------------------------ Bilddrehung und Bildbeschneidung
 output.rot             = 0;        % Rotation
-output.x1              = 0;
+output.x1              = 1;
 output.x2              = 1024;     % default: end
-output.y1              = 0;
+output.y1              = 1;
 output.y2              = 1024;     % default: end
 % ------------------------ Sollwert
 output.porositaet_soll = 0.8;

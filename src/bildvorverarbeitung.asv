@@ -7,16 +7,16 @@ sigma_gauss = 5;
 gaussian1 = fspecial('Gaussian', 21, sigma_gauss);
 gaussian2 = fspecial('Gaussian', 21, sigma_gauss*1.6);  %imgaussfilt
 dog_filter = gaussian1-gaussian2;
-img_temp = zeros(abs(para.x1-para.x2)+1,abs(para.y1-para.y2)+1,size(img_in,3));
+img_temp = zeros(,,size(img_in,3));
 fprintf('--------Bilddrehen und -beschneiden ...\n');
 for i = 1:size(img_in,3)
     %------------------------ Bilddrehen und Bildbeschneiden
     if para.rot
-        img_cut = imrotate(img_in(:,:,i), para.rot);
+        img_temp = imrotate(img_in(:,:,i), para.rot);
     else
-        img_cut = img_in(:,:,i);
+        img_temp = img_in(:,:,i);
     end
-    img_temp(:,:,i) = img_cut(para.x1:para.x2,para.y1:para.y2);
+    img_temp(:,:,i) = img_temp(para.x1:para.x2,para.y1:para.y2);
 end
 
 %------------------------ Beleuchtungseffektkorrektur
@@ -31,7 +31,7 @@ for i = 1:size(img_temp,3)
 end
 
 %------------------------ Difference of Gaussians filter
-fprintf('--------Schaerfen ...\n');
+fprintf('--------Sch?rfen ...\n');
 for i = 1:size(img_out,3)
     img_out(:,:,i) = conv2(double(img_out(:,:,i)), dog_filter, 'same');
 end
