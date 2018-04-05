@@ -1,9 +1,8 @@
 close all;clear
-addpath('C:\Users\fuxia\Documents\Thesis\code\prototyp\Data','skel2graph3d','skeleton3d','src')
+addpath('C:\Users\fuxia\Documents\Thesis\code\prototyp\Data','BaSiC-master','BaSiC-master\dcttool','skel2graph3d','skeleton3d','src')
 para = param;
 load(para.datapath);
 img_stack_after = bildvorverarbeitung(img_stack, para);
-fprintf('Digitales Modell automatisch rekonstruieren ...\n');
 for times = 1:para.Zyklen
     img_bin = bildverarbeitung(img_stack_after, para);
     merkmal = merkmalExtraktion(img_bin, para);
@@ -12,4 +11,4 @@ for times = 1:para.Zyklen
     end
     para = vergleichSWG(merkmal, para);
 end
-showErgebnis(img_bin,img_stack_after,para,merkmal)
+showErgebnis(img_bin,para,merkmal)

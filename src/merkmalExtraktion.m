@@ -5,6 +5,9 @@ function m_out = merkmalExtraktion(img_in,para)
 
 % ------------------------Porenidentifikation
 m_out.porositaet  = porost(img_in);
+% ------------------------Anzahl frei schwebender Objekte
+cc = bwconncomp(img_in,6);
+m_out.ObjektAnzahl = cc.NumObjects;
 % ------------------------Steganalyse
 img_ausschnitt = img_in (151:200,151:200,1:50);
 skel = Skeleton3D(img_ausschnitt);
