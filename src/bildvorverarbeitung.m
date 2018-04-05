@@ -20,20 +20,24 @@ for i = 1:size(img_in,3)
 end
 
 %------------------------ Beleuchtungseffektkorrektur
-fprintf('--------Beleuchtungseffektkorrektur ...\n');
-% estimate flatfield and darkfield
-[flatfield, darkfield] = BaSiC(img_temp,'darkfield','true','lambda',2.0,'lambda_dark',2.0);
-basefluor =  BaSiC_basefluor(img_temp,flatfield,darkfield);
-% image correction
-img_out = zeros(size(img_temp));
-for i = 1:size(img_temp,3)
-    img_out(:,:,i) = (double(img_temp(:,:,i))-darkfield)./flatfield - basefluor(i);
+if para.SwitchBaSiC
+    fprintf('--------Beleuchtungseffektkorrektur ...\n');
+    % estimate flatfield and darkfield
+    [flatfield, darkfield] = BaSiC(img_temp,'darkfield','true','lambda',2.0,'lambda_dark',2.0);
+    basefluor =  BaSiC_basefluor(img_temp,flatfield,darkfield);
+    % image correction
+    img_out = zeros(size(img_temp));
+    for i = 1:size(img_temp,3)
+        img_out(:,:,i) = (double(img_temp(:,:,i))-darkfield)./flatfield - basefluor(i);
+    end
+else
+    img_out = img_temp;
 end
-
 %------------------------ Difference of Gaussians filter
 fprintf('--------Schaerfen ...\n');
 for i = 1:size(img_out,3)
     img_out(:,:,i) = conv2(double(img_out(:,:,i)), dog_filter, 'same');
 end
 img_out = uint8(img_out);
+fprintf('Digitales Modell automatisch rekonstruieren ...\n');
 end

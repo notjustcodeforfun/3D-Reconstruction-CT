@@ -3,7 +3,6 @@ addpath('C:\Users\fuxia\Documents\Thesis\code\prototyp\Data','BaSiC-master','BaS
 para = param;
 load(para.datapath);
 img_stack_after = bildvorverarbeitung(img_stack, para);
-fprintf('Digitales Modell automatisch rekonstruieren ...\n');
 for times = 1:para.Zyklen
     img_bin = bildverarbeitung(img_stack_after, para);
     merkmal = merkmalExtraktion(img_bin, para);
@@ -12,4 +11,4 @@ for times = 1:para.Zyklen
     end
     para = vergleichSWG(merkmal, para);
 end
-showErgebnis(img_bin,img_stack_after,para,merkmal)
+showErgebnis(img_bin,para,merkmal)
