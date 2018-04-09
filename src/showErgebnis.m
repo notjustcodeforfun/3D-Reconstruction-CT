@@ -31,9 +31,9 @@ if merkmal.issteg
         for k=1:length(merkmal.steg.link(i).point)-1
             [x1,y1,z1]=ind2sub([w,l,h],merkmal.steg.link(i).point(k));
             [x2,y2,z2]=ind2sub([w,l,h],merkmal.steg.link(i).point(k+1));
-            xx = x1-x2;
-            yy = y1-y2;
-            zz = z1-z2;
+            xx = (x1-x2)*para.scaling;
+            yy = (y1-y2)*para.scaling;
+            zz = (z1-z2)*para.spacing;
             sum_temp = sum_temp+sqrt(xx*xx+yy*yy+zz*zz);
         end
         sum_knoten = [sum_knoten; sum_temp];
@@ -48,9 +48,10 @@ if merkmal.issteg
     Funfknoten = sum(knotenanzahl ==5)/length(knotenanzahl)*100;
 
     fprintf(['Final result ---------\n1.  Porositaet = ' num2str(merkmal.porositaet*100) ' %%\n']);
-    fprintf(['2.  Anzahl der Objekte = ' num2str(merkmal.ObjektAnzahl),'\n']);
-    fprintf(['3.  Knotenanzahl (Ausschnitt) = ', num2str(length(merkmal.steg.node)) ', davon ' num2str(Endknoten) '%% Endpunkte, ',num2str(Dreiknoten) '%% Knoten mit 3 Stegen, ',num2str(Vierknoten) '%% mit 4 Stegen, ',num2str(Funfknoten), '%% mit 5 Stegen\n']);
-    fprintf(['4.  Durchschnittliche Knotenlaenge (Ausschnitt) = ' num2str(sum(sum_knoten)/length(sum_knoten)),'\n']);
+    fprintf(['2.  Spezifische Oberflaeche = ' num2str(merkmal.SpezOberf),' [m2/m3]\n']);
+    fprintf(['3.  Anzahl der Objekte = ' num2str(merkmal.ObjektAnzahl),'\n']);
+    fprintf(['4.  Knotenanzahl (Ausschnitt) = ', num2str(length(merkmal.steg.node)) ', davon ' num2str(Endknoten) '%% Endpunkte, ',num2str(Dreiknoten) '%% Knoten mit 3 Stegen, ',num2str(Vierknoten) '%% mit 4 Stegen, ',num2str(Funfknoten), '%% mit 5 Stegen\n']);
+    fprintf(['5.  Durchschnittliche Knotenlaenge (Ausschnitt) = ' num2str(sum(sum_knoten)/length(sum_knoten)),'\n']);
 else
     fprintf('Es gibt keine Stege')
 end
