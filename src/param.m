@@ -12,9 +12,9 @@ output.pool.Elementsize= 2:1:3;
 output.pool.MinVolume  = 1:10:20;
 
 % ------------------------ Parameter von Umgebung
-output.dataTyp         = 1;        % 1 :CLSM  0:CT   2:Generierte Struktur manipuliert 
+output.dataTyp         = 0;        % 1 :CLSM  0:CT   2:Generierte Struktur manipuliert 
 output.Zyklen          = 1;       % Anzahl von Wiederholung der for-Schleife
-output.SwitchBaSiC     = 1;     % BaSic filter (Bildvorverarbeitung)
+output.SwitchBaSiC     = 0;     % BaSic filter (Bildvorverarbeitung)
 output.SwitchVolume    = 1;     % Volumen Filter
 output.SwitchPorenV    = 0;    % Porenverteilung
 output.switchDOG       = 1; 
@@ -25,7 +25,7 @@ output.spacing         = 1;        % Massstab z
 output.MinVolume       = 100;       % Min. Volumen von Volumenfilter
 output.skip            = 1;        % Bild neu aufbauen
 output.skip_thresh     = 10;
-output.Kth             = 1.2;      % multi. coeff. to threshhold adjustment
+output.Kth             = 0.8;      % multi. coeff. to threshhold adjustment
 output.Kp              = 1.3;      % Propotionscoeffizient der Regelung
 output.Ki              = 0.1 ;       % I Glied der Regler
 output.ab              = 0.005;    % Abbruch Schwellwert
@@ -51,7 +51,7 @@ elseif output.dataTyp == 2
     output.datapath = 'D:\Projekte\Poroese_Materialien\Data\Vorverarbeitet\GenerierteStrukturen\GenerierteStrukturen_DOG1.mat';
     fprintf(['Datetype: ','Generierte Struktur 1 manipuliert\n']);    
 else
-    output.datapath = 'img_stack_CT.mat';
+    output.datapath = 'C:\Users\fuxia\Documents\Thesis\code\prototyp\Data\img_stack_CT.mat';
     fprintf(['Datetype: ','CT\n']);
 
 end

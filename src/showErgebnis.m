@@ -25,6 +25,7 @@ sum_knoten = [];
 w = size(merkmal.skelett,1);
 l = size(merkmal.skelett,2);
 h = size(merkmal.skelett,3);
+angle = [];
 if merkmal.issteg
     for i = 1:length(merkmal.steg.link)
         sum_temp = 0;
@@ -37,8 +38,16 @@ if merkmal.issteg
             sum_temp = sum_temp+sqrt(xx*xx+yy*yy+zz*zz);
         end
         sum_knoten = [sum_knoten; sum_temp];
+        [steg_1(1),steg_1(2),steg_1(3)] = ind2sub([w,l,h],merkmal.steg.link(i).point(1));
+        [steg_2(1),steg_2(2),steg_2(3)] = ind2sub([w,l,h],merkmal.steg.link(i).point(end));
+        vector_temp = steg_1-steg_2;
+        if vector_temp(3)<0
+            vector_temp = -vector_temp;
+        end
+        angle_xy = atan2(vector_temp(2),vector_temp(1))*180/pi;
+        angle_z = atan2(sqrt(vector_temp(1)^2+vector_temp(2)^2),vector_temp(3));
+        angle = [angle;angle_xy,angle_z];
     end
-    
     for i = 1:length(merkmal.steg.node)
         knotenanzahl = [knotenanzahl;length(merkmal.steg.node(i).links)];
     end
@@ -46,7 +55,7 @@ if merkmal.issteg
     Dreiknoten = sum(knotenanzahl ==3)/length(knotenanzahl)*100;
     Vierknoten = sum(knotenanzahl ==4)/length(knotenanzahl)*100;
     Funfknoten = sum(knotenanzahl ==5)/length(knotenanzahl)*100;
-
+    
     fprintf(['Final result ---------\n1.  Porositaet = ' num2str(merkmal.porositaet*100) ' %%\n']);
     fprintf(['2.  Spezifische Oberflaeche = ' num2str(merkmal.SpezOberf),' [m2/m3]\n']);
     fprintf(['3.  Anzahl der Objekte = ' num2str(merkmal.ObjektAnzahl),'\n']);

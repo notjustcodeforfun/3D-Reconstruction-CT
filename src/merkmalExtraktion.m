@@ -2,7 +2,7 @@ function m_out = merkmalExtraktion(img_in,para)
 % ****************************************************************
 % ------------------------- Merkmale Extraktion -----------------------------
 % ***************************************************************************
-img_ausschnitt = img_in (151:200,151:200,1:50);
+img_ausschnitt = img_in;
 
 % ------------------------Porenidentifikation
 m_out.porositaet  = porost(img_in);
@@ -23,7 +23,7 @@ for i = 1:length(F)    % Heron's formula
     p = (a+b+c)/2;
     S = S + sqrt(p*(p-a)*(p-b)*(p-c));
 end
-m_out.SpezOberf = S/(max(x)*max(y)*max(z));
+m_out.SpezOberf = S/((para.scaling*para.scaling*para.spacing)*(sum(sum(sum(img_ausschnitt==1)))));
 % ------------------------Anzahl frei schwebender Objekte
 cc = bwconncomp(img_in,6);
 m_out.ObjektAnzahl = cc.NumObjects;

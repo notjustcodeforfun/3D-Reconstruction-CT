@@ -1,10 +1,9 @@
 close all;clear
-addpath('D:\Projekte\Poroese_Materialien\Matlab\Xiaoyu\3D-Reconstruction-CT-master','BaSiC-master','BaSiC-master\dcttool','skel2graph3d','skeleton3d','src')
+addpath('D:\Projekte\Poroese_Materialien\Matlab\Xiaoyu\3D-Reconstruction-CT-master','BaSiC-master','BaSiC-master\dcttool','skel2graph3d','skeleton3d','src','MarchingCubes')
 formatOut = 'yymmddhhMM';
 startzeit = datestr(datetime, formatOut);
 para = param;
-
-            
+     
 load(para.datapath);
 
 img_stack_after = bildvorverarbeitung(img_stack, para);
@@ -24,7 +23,7 @@ elseif para.switchParampool == 1 % Parameterpool
     evaluation = {'Probe:'};
     parameterNames = fieldnames(para.pool); %Namen der Parameter im Modellpool
     filename = split(para.datapath, '.'); %Filename f .xlsx erzeugen.
-    for i = 1:numel(parameterNames)
+    for i = 1:numel(parameterNames) 
         evaluation{end+1} = parameterNames{i};
     end
     evaluation = [evaluation, 'Porositaet:', 'Anzahl Objekte:', 'Knotenanzahl:', 'Endpunkte %:', '3 Stege %:', '4 Stege %:', '5 Stege %:', 'Durchschnittliche Steglänge:'];
