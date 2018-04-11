@@ -45,7 +45,7 @@ if merkmal.issteg
             vector_temp = -vector_temp;
         end
         angle_xy = atan2(vector_temp(2),vector_temp(1))*180/pi;
-        angle_z = atan2(sqrt(vector_temp(1)^2+vector_temp(2)^2),vector_temp(3));
+        angle_z = atan2(sqrt(vector_temp(1)^2+vector_temp(2)^2),vector_temp(3))*180/pi;
         angle = [angle;angle_xy,angle_z];
     end
     for i = 1:length(merkmal.steg.node)
@@ -55,7 +55,6 @@ if merkmal.issteg
     Dreiknoten = sum(knotenanzahl ==3)/length(knotenanzahl)*100;
     Vierknoten = sum(knotenanzahl ==4)/length(knotenanzahl)*100;
     Funfknoten = sum(knotenanzahl ==5)/length(knotenanzahl)*100;
-    
     fprintf(['Final result ---------\n1.  Porositaet = ' num2str(merkmal.porositaet*100) ' %%\n']);
     fprintf(['2.  Spezifische Oberflaeche = ' num2str(merkmal.SpezOberf),' [m2/m3]\n']);
     fprintf(['3.  Anzahl der Objekte = ' num2str(merkmal.ObjektAnzahl),'\n']);

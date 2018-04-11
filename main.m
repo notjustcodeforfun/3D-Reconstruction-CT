@@ -26,7 +26,7 @@ elseif para.switchParampool == 1 % Parameterpool
     for i = 1:numel(parameterNames) 
         evaluation{end+1} = parameterNames{i};
     end
-    evaluation = [evaluation, 'Porositaet:', 'Anzahl Objekte:', 'Knotenanzahl:', 'Endpunkte %:', '3 Stege %:', '4 Stege %:', '5 Stege %:', 'Durchschnittliche Steglänge:'];
+    evaluation = [evaluation, 'Porositaet:', 'Anzahl Objekte:', 'Knotenanzahl:', 'Endpunkte %:', '3 Stege %:', '4 Stege %:', '5 Stege %:', 'Durchschnittliche Steglaenge:'];
     
     %% Berechnen aller Kombinationen
     for i = 1:length(para.combinations)
