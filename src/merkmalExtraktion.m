@@ -2,16 +2,15 @@ function m_out = merkmalExtraktion(img_in,para)
 % ****************************************************************
 % ------------------------- Merkmale Extraktion -----------------------------
 % ***************************************************************************
-img_ausschnitt = img_in;
 
 % ------------------------Porenidentifikation
 m_out.porositaet  = porost(img_in);
 % ------------------------Spezifische Oberflaeche (Marching Cubes)
-x = 0:para.scaling:para.scaling*(size(img_ausschnitt,1)-1);
-y = 0:para.scaling:para.scaling*(size(img_ausschnitt,2)-1);
-z = 0:para.spacing:para.spacing*(size(img_ausschnitt,3)-1);
+x = 0:para.scaling:para.scaling*(size(img_in,1)-1);
+y = 0:para.scaling:para.scaling*(size(img_in,2)-1);
+z = 0:para.spacing:para.spacing*(size(img_in,3)-1);
 [X,Y,Z] = meshgrid(x,y,z);
-[F,V] = MarchingCubes(X,Y,Z,img_ausschnitt,0.5);
+[F,V] = MarchingCubes(X,Y,Z,img_in,0.5);
 S = 0;
 for i = 1:length(F)    % Heron's formula
     A = V(F(i,1),:);
@@ -23,12 +22,12 @@ for i = 1:length(F)    % Heron's formula
     p = (a+b+c)/2;
     S = S + sqrt(p*(p-a)*(p-b)*(p-c));
 end
-m_out.SpezOberf = S/((para.scaling*para.scaling*para.spacing)*(sum(sum(sum(img_ausschnitt==1)))));
+m_out.SpezOberf = S/((para.scaling*para.scaling*para.spacing)*(sum(sum(sum(img_in==1)))));
 % ------------------------Anzahl frei schwebender Objekte
 cc = bwconncomp(img_in,6);
 m_out.ObjektAnzahl = cc.NumObjects;
 % ------------------------Steganalyse
-skel = Skeleton3D(img_ausschnitt);
+skel = Skeleton3D(img_in);
 [~,node,link] = Skel2Graph3D(skel,0);
 w = size(skel,1);
 l = size(skel,2);
@@ -58,7 +57,7 @@ if isstruct(node)
     m_out.steg.node = node2;
     m_out.steg.link = link2;
     m_out.skelett = skel2;
-    m_out.ausschnitt = img_ausschnitt;
+    m_out.ausschnitt = img_in;
     m_out.issteg = true;
 else
     m_out.issteg = false;
