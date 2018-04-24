@@ -6,23 +6,23 @@ function output = param
 % ------------------------ Parameterpool
 % Wenn der Parameterpool verwendet wird, werden alle Kombinationen des
 % parameterpools durchgerechnet.
-output.switchParampool    = 0;
-output.pool.Kth        = 0.8:0.1:1.0;
-output.pool.Elementsize= 2:1:3;
-output.pool.MinVolume  = 1:10:20;
+output.switchParampool = 0;
+output.pool.Kth        = 1.8:0.05:2.0;
+output.pool.Elementsize= 3;
+output.pool.MinVolume  = 30;
 
 % ------------------------ Parameter von Umgebung
-output.dataTyp         = 0;        % 1 :CLSM  0:CT   2:Generierte Struktur manipuliert 
-output.Zyklen          = 1;       % Anzahl von Wiederholung der for-Schleife
-output.SwitchBaSiC     = 0;     % BaSic filter (Bildvorverarbeitung)
-output.SwitchVolume    = 1;     % Volumen Filter
+output.dataTyp         = 0;    % 1 :CLSM  0:CT   2:Generierte Struktur manipuliert 
+output.Zyklen          = 1;    % Anzahl von Wiederholung der for-Schleife
+output.SwitchBaSiC     = 0;    % BaSic filter (Bildvorverarbeitung)
+output.SwitchVolume    = 1;    % Volumen Filter
 output.SwitchPorenV    = 0;    % Porenverteilung
 output.switchDOG       = 1; 
-output.ShowDetails     = 1;     % Anzeigen des aktuellen Zustand 
-output.Elementsize     = 3;        % Groe?e der Strukturelement, Einheit [voxel]
-output.scaling         = 1;        % Massstab x,y
-output.spacing         = 1;        % Massstab z  
-output.MinVolume       = 100;       % Min. Volumen von Volumenfilter
+output.ShowDetails     = 1;    % Anzeigen des aktuellen Zustand 
+output.Elementsize     = 3;    % Groesse der Strukturelement, Einheit [voxel]
+output.scaling         = 1;    % Massstab x,y
+output.spacing         = 1;    % Massstab z  
+output.MinVolume       = 100;  % Min. Volumen von Volumenfilter
 output.skip            = 1;        % Bild neu aufbauen
 output.skip_thresh     = 10;
 output.Kth             = 0.8;      % multi. coeff. to threshhold adjustment

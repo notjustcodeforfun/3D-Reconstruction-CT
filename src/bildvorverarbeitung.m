@@ -34,9 +34,11 @@ else
     img_out = img_temp;
 end
 %------------------------ Difference of Gaussians filter
-fprintf('--------Schaerfen ...\n');
-for i = 1:size(img_out,3)
-    img_out(:,:,i) = conv2(double(img_out(:,:,i)), dog_filter, 'same');
+if para.switchDOG
+    fprintf('--------Schaerfen ...\n');
+    for i = 1:size(img_out,3)
+        img_out(:,:,i) = imfilter(double(img_out(:,:,i)), dog_filter, 'replicate');
+    end
 end
 img_out = uint8(img_out);
 fprintf('Digitales Modell automatisch rekonstruieren ...\n');

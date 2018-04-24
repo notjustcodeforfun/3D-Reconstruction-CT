@@ -23,7 +23,7 @@ function [F,V,col] = MarchingCubes(x,y,z,c,iso,colors)
 % Revised 30 September, 2011 to add code by Oliver Woodford for removing 
 % duplicate vertices. 
 
-PlotFlag = 1;               % 1=plot isosurface, 0=do not plot
+PlotFlag = 0;               % 1=plot isosurface, 0=do not plot
 calc_cols = false;
 lindex = 4;
 

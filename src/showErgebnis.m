@@ -1,4 +1,4 @@
-function showErgebnis(img_bin,para,merkmal)
+function erg = showErgebnis(img_bin,para,merkmal)
 %% ****************************************************************
 % ---------------------------- Endergebnisse --------------------------------
 % ***************************************************************************
@@ -54,15 +54,18 @@ if merkmal.issteg
     Endknoten = sum(knotenanzahl ==1)/length(knotenanzahl)*100;
     Dreiknoten = sum(knotenanzahl ==3)/length(knotenanzahl)*100;
     Vierknoten = sum(knotenanzahl ==4)/length(knotenanzahl)*100;
-    Funfknoten = sum(knotenanzahl ==5)/length(knotenanzahl)*100;
+    Fuenfknoten = sum(knotenanzahl ==5)/length(knotenanzahl)*100;
     fprintf(['Final result ---------\n1.  Porositaet = ' num2str(merkmal.porositaet*100) ' %%\n']);
-    fprintf(['2.  Spezifische Oberflaeche = ' num2str(merkmal.SpezOberf),' [m2/m3]\n']);
-    fprintf(['3.  Anzahl der Objekte = ' num2str(merkmal.ObjektAnzahl),'\n']);
-    fprintf(['4.  Knotenanzahl (Ausschnitt) = ', num2str(length(merkmal.steg.node)) ', davon ' num2str(Endknoten) '%% Endpunkte, ',num2str(Dreiknoten) '%% Knoten mit 3 Stegen, ',num2str(Vierknoten) '%% mit 4 Stegen, ',num2str(Funfknoten), '%% mit 5 Stegen\n']);
-    fprintf(['5.  Durchschnittliche Knotenlaenge (Ausschnitt) = ' num2str(sum(sum_knoten)/length(sum_knoten)),'\n']);
+    fprintf(['2.  Spezifische Oberflaeche = ' num2str(merkmal.SpezOberf) ' [m2/m3]\n']);
+    fprintf(['3.  Anzahl der Objekte = ' num2str(merkmal.ObjektAnzahl) '\n']);
+    fprintf(['4.  Knotenanzahl (Ausschnitt) = ' num2str(length(merkmal.steg.node)) ', davon ' num2str(Endknoten) '%% Endpunkte, ',num2str(Dreiknoten) '%% Knoten mit 3 Stegen, ',num2str(Vierknoten) '%% mit 4 Stegen, ',num2str(Fuenfknoten), '%% mit 5 Stegen\n']);
+    fprintf(['5.  Durchschnittliche Knotenlaenge (Ausschnitt) = ' num2str(sum(sum_knoten)/length(sum_knoten)) '\n']);
 else
     fprintf('Es gibt keine Stege')
 end
+%% Werte zurueckgeben:
+    erg = {merkmal.porositaet*100, merkmal.SpezOberf, merkmal.ObjektAnzahl, length(merkmal.steg.node), Endknoten, Dreiknoten, Vierknoten, Fuenfknoten, sum(sum_knoten)/length(sum_knoten)};
+
 % ------------------------ 3D-Darstellung
 
 end

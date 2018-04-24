@@ -1,5 +1,5 @@
 close all;clear
-addpath('D:\Projekte\Poroese_Materialien\Matlab\Xiaoyu\3D-Reconstruction-CT-master','BaSiC-master','BaSiC-master\dcttool','skel2graph3d','skeleton3d','src','MarchingCubes')
+addpath('D:\Projekte\Poroese_Materialien\Matlab\Xiaoyu\3D-Reconstruction-CT-master','BaSiC-master','BaSiC-master\dcttool','skel2graph3d','skeleton3d','src','MarchingCubes','C:\Users\fuxia\Documents\Thesis\code\Moritz')
 formatOut = 'yymmddhhMM';
 startzeit = datestr(datetime, formatOut);
 para = param;
@@ -17,7 +17,7 @@ if para.switchParampool == 0
         end
         para = vergleichSWG(merkmal, para);
     end
-    showErgebnis(img_bin,para,merkmal)
+    showErgebnis(img_bin,para,merkmal);
 elseif para.switchParampool == 1 % Parameterpool 
     % Erste Zeile Auswertungstabelle generieren: 
     evaluation = {'Probe:'};
@@ -26,7 +26,7 @@ elseif para.switchParampool == 1 % Parameterpool
     for i = 1:numel(parameterNames) 
         evaluation{end+1} = parameterNames{i};
     end
-    evaluation = [evaluation, 'Porositaet:', 'Anzahl Objekte:', 'Knotenanzahl:', 'Endpunkte %:', '3 Stege %:', '4 Stege %:', '5 Stege %:', 'Durchschnittliche Steglaenge:'];
+    evaluation = [evaluation, 'Porositaet:', 'Spezifische Oberflaeche:', 'Anzahl Objekte:', 'Knotenanzahl:', 'Endpunkte %:', '3 Stege %:', '4 Stege %:', '5 Stege %:', 'Durchschnittliche Steglaenge:'];
     
     %% Berechnen aller Kombinationen
     for i = 1:length(para.combinations)
