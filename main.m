@@ -54,5 +54,4 @@ elseif para.switchParampool == 1 % Parameterpool
     paraCell = fieldnames(para);
     paraCell = [paraCell, struct2cell(para)];
     xlswrite(strcat(filename{1}, '_', startzeit,'.xlsx'), paraCell, 'Parameters');
-    
 end

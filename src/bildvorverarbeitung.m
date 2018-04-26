@@ -9,7 +9,7 @@ gaussian2 = fspecial('Gaussian', 21, sigma_gauss*1.6);  %imgaussfilt
 dog_filter = gaussian1-gaussian2;
 img_temp = zeros(abs(para.x1-para.x2)+1,abs(para.y1-para.y2)+1,size(img_in,3));
 fprintf('--------Bilddrehen und -beschneiden ...\n');
-for i = 1:size(img_in,3)
+for i = para.z1:para.z2
     %------------------------ Bilddrehen und Bildbeschneiden
     if para.rot
         img_cut = imrotate(img_in(:,:,i), para.rot);
@@ -19,8 +19,8 @@ for i = 1:size(img_in,3)
     img_temp(:,:,i) = img_cut(para.x1:para.x2,para.y1:para.y2);
 end
 
-%------------------------ Beleuchtungseffektkorrektur
-if para.SwitchBaSiC
+%------------------------ Beleuchtungseffektkorrektur (BaSiC Tool)
+if para.dataTyp
     fprintf('--------Beleuchtungseffektkorrektur ...\n');
     % estimate flatfield and darkfield
     [flatfield, darkfield] = BaSiC(img_temp,'darkfield','true','lambda',2.0,'lambda_dark',2.0);
