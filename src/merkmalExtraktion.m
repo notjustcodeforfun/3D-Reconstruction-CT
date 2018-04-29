@@ -64,7 +64,7 @@ else
 end
 % addpath('C:\Users\fuxia\Documents\Thesis\code\Moritz')
 % m_out = callCLSM(img_in);
-if(para.ShowDetails)
+if(para.ShowDetails && para.switchMode == 0)
     fprintf(['Actuelle Porositaet ist:  ' num2str(m_out.porositaet*100) ' %%.\n']);
 end
 end

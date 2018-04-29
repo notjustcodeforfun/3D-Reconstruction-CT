@@ -64,8 +64,11 @@ else
     fprintf('Es gibt keine Stege')
 end
 %% Werte zurueckgeben:
+if para.switchMode == 1
     erg = {merkmal.porositaet*100, merkmal.SpezOberf, merkmal.ObjektAnzahl, length(merkmal.steg.node), Endknoten, Dreiknoten, Vierknoten, Fuenfknoten, sum(sum_knoten)/length(sum_knoten)};
-
+elseif para.switchMode == 2
+    erg = [merkmal.porositaet*100, merkmal.SpezOberf, merkmal.ObjektAnzahl, length(merkmal.steg.node), Endknoten, Dreiknoten, Vierknoten, Fuenfknoten, sum(sum_knoten)/length(sum_knoten)];
+end
 % ------------------------ 3D-Darstellung
 
 end

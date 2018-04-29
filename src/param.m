@@ -1,47 +1,67 @@
-function output = param
+function output = param(datatyp)
 % ****************************************************************
 % ----------------------  Parameter einstellen ------------------------------
 % ***************************************************************************
 
-% ------------------------ Parameterpool
+%% ------------------------ Tool einstellen
+output.switchMode               = 1;             % 0: PID Regler, 1: Pool Berechnung, 2: Genetische Algorithmus
+output.dataTyp                  = datatyp;       % 1 :CLSM  0:CT   2:Generierte Struktur manipuliert 
+
+%% ------------------------ PID Regeler (output.switchMode == 0)
+output.Zyklen                   = 1;             % Anzahl von Wiederholung der for-Schleife
+output.Kth                      = 1.1;           % multi. coeff. to threshhold adjustment
+output.Kp                       = 1.3;           % Propotionscoeffizient der Regelung
+output.Ki                       = 0.1 ;          % I Glied der Regler
+output.ab                       = 0.005;         % Abbruch Schwellwert
+output.ShowDetails              = 1;             % Anzeigen des aktuellen Zustand (Porositaet)
+
+%% ------------------------ Parameterpool (output.switchMode == 1)
 % Wenn der Parameterpool verwendet wird, werden alle Kombinationen des
 % parameterpools durchgerechnet.
-output.switchParampool = 1;
-output.pool.Kth        = 0.8:0.1:2.5;
-output.pool.Elementsize= 1:1:3;
-output.pool.MinVolume  = 10:10:100;
+output.pool.Kth                 = 0.2:0.1:3;
+output.pool.Elementsize         = 1:1:10;
+output.pool.MinVolume           = 10:20:100;
 
-% ------------------------ Parameter von Umgebung
-output.dataTyp         = 0;    % 1 :CLSM  0:CT   2:Generierte Struktur manipuliert 
-output.Zyklen          = 1;    % Anzahl von Wiederholung der for-Schleife
-% output.SwitchBaSiC     = 0;    % BaSic filter (Bildvorverarbeitung)
-output.SwitchVolume    = 1;    % Volumen Filter
-output.SwitchPorenV    = 0;    % Porenverteilung
-output.switchDOG       = 1; 
-output.ShowDetails     = 1;    % Anzeigen des aktuellen Zustand 
-output.Elementsize     = 3;    % Groesse der Strukturelement, Einheit [voxel]
-output.scaling         = 1;    % Massstab x,y
-output.spacing         = 1;    % Massstab z  
-output.MinVolume       = 100;  % Min. Volumen von Volumenfilter
-output.skip            = 1;        % Bild neu aufbauen
-output.skip_thresh     = 10;
-output.Kth             = 1.5;      % multi. coeff. to threshhold adjustment
-output.Kp              = 1.3;      % Propotionscoeffizient der Regelung
-output.Ki              = 0.1 ;       % I Glied der Regler
-output.ab              = 0.005;    % Abbruch Schwellwert
+%% ------------------------ Genetic Algorithm (output.switchMode == 2)
+output.genetic.pop_size         = 5;            % Bevoelkerung
+output.genetic.generation_size  = 10;            % Generation
+output.genetic.cross_rate       = 0.9;          % Cross-over Wahrscheinlichkeit
+output.genetic.mutate_rate      = 0.01;         % Mutation Wahrscheinlichkeit
+output.genetic.elitism          = 1;            % 1 fuer Elitismus
+
+%% ------------------------ Sollwert (optimal)
+output.soll.porositaet          = 90;           % [%]
+output.soll.nodesEnd            = 20;           % [%]
+output.soll.lLink               = 13;
+output.soll.nObjects            = 10;
+
+output.factors.porositaet       = 1;
+output.factors.nodesEnd         = 0.05;
+output.factors.lLink            = 0.5;
+output.factors.nObjects         = 0.05;
+
+%% ------------------------ Parameter von Umgebung
+output.sigma_gauss              = 5;
+% output.SwitchBaSiC     = 0;                       % BaSic filter (Bildvorverarbeitung)
+output.SwitchVolume             = 1;             % Volumen Filter
+output.SwitchPorenV             = 0;             % Porenverteilung
+output.switchDOG                = 1; 
+output.Elementsize              = 1;             % Groesse der Strukturelement, Einheit [voxel]
+output.scaling                  = 1;             % Massstab x,y
+output.spacing                  = 1;             % Massstab z  
+output.MinVolume                = 300;           % Min. Volumen von Volumenfilter
+output.skip                     = 1;             % Bild neu aufbauen
+output.skip_thresh              = 10;
+
 % ------------------------ Bilddrehung und Bildbeschneidung
-output.switchRotCut    = 1;
-output.rot             = 0;        % Rotation
-output.x1              = 501;
-output.x2              = 700;     % default: end
-output.y1              = 501;
-output.y2              = 700;     % default: end
-output.z1              = 1;
-output.z2              = 200;
-% ------------------------ Sollwert
-output.porositaet_soll = 0.8;
-% ------------------------ Initialization
-output.diff_sum        = 0;        % Integral von Porositaetsabweichung   
+output.switchRotCut             = 1;
+output.rot                      = 0;             % Rotation
+output.x1                       = 501;
+output.x2                       = 700;           % default: end
+output.y1                       = 501;
+output.y2                       = 700;           % default: end
+output.z1                       = 1;
+output.z2                       = 200;
 
 %% Bildstapel laden:
 if output.dataTyp == 1
@@ -57,7 +77,7 @@ else
 end
 
 %% Parameterpool generieren:
-if output.switchParampool == 1
+if output.switchMode == 1
     poolCell = struct2cell(output.pool);
     output.combinations = poolCell{1};
     for i = 1:size(poolCell,1)-1
@@ -65,5 +85,4 @@ if output.switchParampool == 1
         z = reshape(repmat(poolCell{i+1},size(output.combinations,2),1),1,[]);
         output.combinations = [y; z];
     end
-    clear i y z poolCell;
 end
