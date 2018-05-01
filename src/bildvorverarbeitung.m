@@ -3,24 +3,13 @@ function img_out = bildvorverarbeitung(img_in,para)
 % ----------------------- Bildvorverarbeitung  ------------------------------
 % ***************************************************************************
 fprintf('Bildvorverarbeitung ...\n');
-sigma_gauss = 5;
-gaussian1 = fspecial('Gaussian', 21, sigma_gauss);
-gaussian2 = fspecial('Gaussian', 21, sigma_gauss*1.6);  %imgaussfilt
+gaussian1 = fspecial('Gaussian', 21, para.sigma_gauss);
+gaussian2 = fspecial('Gaussian', 21, para.sigma_gauss*1.6);  %imgaussfilt
 dog_filter = gaussian1-gaussian2;
-img_temp = zeros(abs(para.x1-para.x2)+1,abs(para.y1-para.y2)+1,size(img_in,3));
-fprintf('--------Bilddrehen und -beschneiden ...\n');
-for i = 1:size(img_in,3)
-    %------------------------ Bilddrehen und Bildbeschneiden
-    if para.rot
-        img_cut = imrotate(img_in(:,:,i), para.rot);
-    else
-        img_cut = img_in(:,:,i);
-    end
-    img_temp(:,:,i) = img_cut(para.x1:para.x2,para.y1:para.y2);
-end
 
-%------------------------ Beleuchtungseffektkorrektur
-if para.SwitchBaSiC
+img_temp = img_in;
+%------------------------ Beleuchtungseffektkorrektur (BaSiC Tool)
+if para.dataTyp
     fprintf('--------Beleuchtungseffektkorrektur ...\n');
     % estimate flatfield and darkfield
     [flatfield, darkfield] = BaSiC(img_temp,'darkfield','true','lambda',2.0,'lambda_dark',2.0);
@@ -33,6 +22,20 @@ if para.SwitchBaSiC
 else
     img_out = img_temp;
 end
+
+%------------------------ Bilddrehen und Bildbeschneiden
+clear img_temp
+img_temp = zeros(abs(para.x1-para.x2)+1,abs(para.y1-para.y2)+1,size(img_in,3));
+fprintf('--------Bilddrehen und -beschneiden ...\n');
+for i = para.z1:para.z2
+    if para.rot
+        img_cut = imrotate(img_in(:,:,i), para.rot);
+    else
+        img_cut = img_in(:,:,i);
+    end
+    img_temp(:,:,i) = img_cut(para.x1:para.x2,para.y1:para.y2);
+end
+img_out = img_temp;
 %------------------------ Difference of Gaussians filter
 if para.switchDOG
     fprintf('--------Schaerfen ...\n');

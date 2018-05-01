@@ -1,7 +1,7 @@
 function para_out = vergleichSWG(merkmal_in,para)
 
 % ------------------------------ Vergleich ----------------------------------
-diff_poro = para.porositaet_soll - merkmal_in.porositaet;
+diff_poro = para.soll.porositaet - merkmal_in.porositaet*100;
 
 % ----------------------- Stellwert generierung -----------------------------
 global diff_sum
