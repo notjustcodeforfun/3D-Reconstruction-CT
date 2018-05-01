@@ -38,20 +38,21 @@ if isstruct(node)
     
     skel2 = Graph2Skel3D(node,link,w,l,h);
     [A2,node2,link2] = Skel2Graph3D(skel2,0);
-    
-    % calculate new total length of network
-    wl_new = sum(cellfun('length',{node2.links}));
-    
-    % iterate the same steps until network length changed by less than 0.5%
-    while(wl_new~=wl)
-        
-        wl = wl_new;
-        
-        skel2 = Graph2Skel3D(node2,link2,w,l,h);
-        [A2,node2,link2] = Skel2Graph3D(skel2,3);
-        
+    if isstruct(node2)
+        % calculate new total length of network
         wl_new = sum(cellfun('length',{node2.links}));
         
+        % iterate the same steps until network length changed by less than 0.5%
+        while(wl_new~=wl)
+            
+            wl = wl_new;
+            
+            skel2 = Graph2Skel3D(node2,link2,w,l,h);
+            [A2,node2,link2] = Skel2Graph3D(skel2,3);
+            
+            wl_new = sum(cellfun('length',{node2.links}));
+            
+        end
     end
     m_out.steg.A = A2;
     m_out.steg.node = node2;

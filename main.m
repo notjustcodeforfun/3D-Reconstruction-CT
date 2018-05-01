@@ -11,7 +11,7 @@ if para.switchMode == 0
     for times = 1:para.Zyklen
         img_bin = bildverarbeitung(img_stack_after, para);
         merkmal = merkmalExtraktion(img_bin, para);
-        if abs(merkmal.porositaet-para.porositaet_soll)<para.ab
+        if abs(merkmal.porositaet-para.soll.porositaet)<para.ab
             break
         end
         para = vergleichSWG(merkmal, para);
@@ -19,10 +19,10 @@ if para.switchMode == 0
     ergebnis = showErgebnis(img_bin,para,merkmal);
     
 % Pool Berechnung
-fprintf('Pool Berechnung start...\n')
 elseif para.switchMode == 1 % Parameterpool
+    fprintf('Pool Berechnung start...\n')
     filename = callPool(para,img_stack_after,startzeit);
-    callMinimierer(para,filename);
+    merkmalsraum = callMinimierer(para,filename);
 
 % Genetische Algorithmus
 elseif para.switchMode == 2

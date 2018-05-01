@@ -1,4 +1,4 @@
-function callMinimierer(para,filename)
+function merkmalsraum = callMinimierer(para,filename)
 %% Reads the features from an excel file that are created with the feature extractor (Xiaoyu) 
 % This features are then evaluated by a optimization function, that
 % minimizes the error
@@ -11,7 +11,7 @@ filenameExcel = filename;
 %% Import data from spreadsheet
 
 % Import the data
-[~, ~, importRaw] = xlsread(strcat(pathExcel, filenameExcel));
+[~, ~, importRaw] = xlsread(filenameExcel);
 % Create table
 merkmalsraum = cell2table(importRaw(2:end,:));
 % Set variable names
@@ -27,7 +27,7 @@ clearvars importRaw variableNames;
 merkmalsraum.fMin = ones(size(merkmalsraum,1),1)*(-1);
 
 %% Create minimization function
-fmin = @(x,y,z) para.factors.porositaet*(x-para.soll.porositaet)^2+para.factors.factors.nObjects*(y-para.soll.nObjects)^2+para.factors.nodesEnd*(z-para.soll.nodesEnd)^2;
+fmin = @(x,y,z) para.factors.porositaet*(x-para.soll.porositaet)^2+para.factors.nObjects*(y-para.soll.nObjects)^2+para.factors.nodesEnd*(z-para.soll.nodesEnd)^2;
 
 for i = 1:size(merkmalsraum,1)
     merkmalsraum.fMin(i)= fmin(merkmalsraum.Porositaet(i), merkmalsraum.NObjects(i), merkmalsraum.NodesEnd(i));

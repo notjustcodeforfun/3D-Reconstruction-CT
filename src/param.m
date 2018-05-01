@@ -4,12 +4,12 @@ function output = param(datatyp)
 % ***************************************************************************
 
 %% ------------------------ Tool einstellen
-output.switchMode               = 1;             % 0: PID Regler, 1: Pool Berechnung, 2: Genetische Algorithmus
+output.switchMode               = 2;             % 0: PID Regler, 1: Pool Berechnung, 2: Genetische Algorithmus
 output.dataTyp                  = datatyp;       % 1 :CLSM  0:CT   2:Generierte Struktur manipuliert 
 
 %% ------------------------ PID Regeler (output.switchMode == 0)
 output.Zyklen                   = 1;             % Anzahl von Wiederholung der for-Schleife
-output.Kth                      = 1.1;           % multi. coeff. to threshhold adjustment
+output.Kth                      = 2.0;           % multi. coeff. to threshhold adjustment
 output.Kp                       = 1.3;           % Propotionscoeffizient der Regelung
 output.Ki                       = 0.1 ;          % I Glied der Regler
 output.ab                       = 0.005;         % Abbruch Schwellwert
@@ -23,17 +23,17 @@ output.pool.Elementsize         = 1:1:10;
 output.pool.MinVolume           = 10:20:100;
 
 %% ------------------------ Genetic Algorithm (output.switchMode == 2)
-output.genetic.pop_size         = 5;            % Bevoelkerung
-output.genetic.generation_size  = 10;            % Generation
-output.genetic.cross_rate       = 0.9;          % Cross-over Wahrscheinlichkeit
-output.genetic.mutate_rate      = 0.01;         % Mutation Wahrscheinlichkeit
+output.genetic.pop_size         = 10;            % Bevoelkerung
+output.genetic.generation_size  = 6;            % Generation
+output.genetic.cross_rate       = 0.8;          % Cross-over Wahrscheinlichkeit
+output.genetic.mutate_rate      = 0.05;         % Mutation Wahrscheinlichkeit
 output.genetic.elitism          = 1;            % 1 fuer Elitismus
 
 %% ------------------------ Sollwert (optimal)
-output.soll.porositaet          = 90;           % [%]
+output.soll.porositaet          = 80;           % [%]
 output.soll.nodesEnd            = 20;           % [%]
-output.soll.lLink               = 13;
-output.soll.nObjects            = 10;
+output.soll.lLink               = 15;
+output.soll.nObjects            = 30;
 
 output.factors.porositaet       = 1;
 output.factors.nodesEnd         = 0.05;
@@ -49,7 +49,7 @@ output.switchDOG                = 1;
 output.Elementsize              = 1;             % Groesse der Strukturelement, Einheit [voxel]
 output.scaling                  = 1;             % Massstab x,y
 output.spacing                  = 1;             % Massstab z  
-output.MinVolume                = 300;           % Min. Volumen von Volumenfilter
+output.MinVolume                = 30;           % Min. Volumen von Volumenfilter
 output.skip                     = 1;             % Bild neu aufbauen
 output.skip_thresh              = 10;
 

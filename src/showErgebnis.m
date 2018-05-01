@@ -22,11 +22,12 @@ end
 % ------------------------Anschauen der Porositaet   
 knotenanzahl = [];
 sum_knoten = [];
-w = size(merkmal.skelett,1);
-l = size(merkmal.skelett,2);
-h = size(merkmal.skelett,3);
+
 angle = [];
 if merkmal.issteg
+    w = size(merkmal.skelett,1);
+    l = size(merkmal.skelett,2);
+    h = size(merkmal.skelett,3);
     for i = 1:length(merkmal.steg.link)
         sum_temp = 0;
         for k=1:length(merkmal.steg.link(i).point)-1
@@ -66,7 +67,7 @@ end
 %% Werte zurueckgeben:
 if para.switchMode == 1
     erg = {merkmal.porositaet*100, merkmal.SpezOberf, merkmal.ObjektAnzahl, length(merkmal.steg.node), Endknoten, Dreiknoten, Vierknoten, Fuenfknoten, sum(sum_knoten)/length(sum_knoten)};
-elseif para.switchMode == 2
+else 
     erg = [merkmal.porositaet*100, merkmal.SpezOberf, merkmal.ObjektAnzahl, length(merkmal.steg.node), Endknoten, Dreiknoten, Vierknoten, Fuenfknoten, sum(sum_knoten)/length(sum_knoten)];
 end
 % ------------------------ 3D-Darstellung
