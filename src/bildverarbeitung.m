@@ -13,7 +13,6 @@ for i = 1:size(img_in,3)
 end
 % ------------------------- Morph. Operation
 img_out = imclose(img_out,strel('sphere',para.Elementsize));
-% img_out = imopen(img_out,strel('sphere',1));
 
 % ------------------------- Optimierung nach Volumen
 if para.SwitchVolume
@@ -21,6 +20,7 @@ if para.SwitchVolume
 end
 
 end
+
 
 function thresh_regress = threshregress(img_stack,n)
 % img_stack, input image.

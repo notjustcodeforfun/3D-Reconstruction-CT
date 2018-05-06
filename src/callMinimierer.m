@@ -18,7 +18,7 @@ merkmalsraum = cell2table(importRaw(2:end,:));
 % merkmalsraum.Properties.VariableNames = importRaw(1,:); doesnt work, because of :
 % and % in variable names so you have to set it by hand
 
-variableNames = {'Probe','Kth','ElementSize','MinVolume','Porositaet','SpeOberflaeche','NObjects','NNodes','NodesEnd','Nodes3','Nodes4','Nodes5','NodeLength'};
+variableNames = {'Probe','Kth','ElementSize','MinVolume','Porositaet','SpeOberflaeche','NObjects','NNodes','NodesEnd','Nodes3','Nodes4','Nodes5','NodeLength','Porengroesse','PorengroesseAnteil'};
 merkmalsraum.Properties.VariableNames = variableNames;
 % Clear temporary variables
 clearvars importRaw variableNames;
@@ -27,10 +27,13 @@ clearvars importRaw variableNames;
 merkmalsraum.fMin = ones(size(merkmalsraum,1),1)*(-1);
 
 %% Create minimization function
-fmin = @(x,y,z) para.factors.porositaet*(x-para.soll.porositaet)^2+para.factors.nObjects*(y-para.soll.nObjects)^2+para.factors.nodesEnd*(z-para.soll.nodesEnd)^2;
+fmin = @(x,y,z,k) para.factors.porositaet*(x-para.soll.porositaet)^2+...
+    para.factors.nObjects*(y-para.soll.nObjects)^2+...
+    para.factors.nodesEnd*(z-para.soll.nodesEnd)^2+...
+    para.factors.sizePoren*(k-para.soll.sizePoren)^2;
 
 for i = 1:size(merkmalsraum,1)
-    merkmalsraum.fMin(i)= fmin(merkmalsraum.Porositaet(i), merkmalsraum.NObjects(i), merkmalsraum.NodesEnd(i));
+    merkmalsraum.fMin(i)= fmin(merkmalsraum.Porositaet(i), merkmalsraum.NObjects(i), merkmalsraum.NodesEnd(i),merkmalsraum.Porengroesse(i));
 end
 
 end

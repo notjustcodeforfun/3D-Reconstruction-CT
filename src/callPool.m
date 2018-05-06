@@ -6,7 +6,7 @@ function filename_end = callPool(para,img_stack_after,startzeit)
     for i = 1:numel(parameterNames) 
         evaluation{end+1} = parameterNames{i};
     end
-    evaluation = [evaluation, 'Porositaet:', 'Spezifische Oberflaeche:', 'Anzahl Objekte:', 'Knotenanzahl:', 'Endpunkte %:', '3 Stege %:', '4 Stege %:', '5 Stege %:', 'Durchschnittliche Steglaenge:'];
+    evaluation = [evaluation, 'Porositaet:', 'Spezifische Oberflaeche:', 'Anzahl Objekte:', 'Knotenanzahl:', 'Endpunkte %:', '3 Stege %:', '4 Stege %:', '5 Stege %:', 'Durchschnittliche Steglaenge:','Porengroesse:','Anteil: '];
     
     % Berechnen aller Kombinationen
     for i = 1:length(para.combinations)
@@ -20,7 +20,7 @@ function filename_end = callPool(para,img_stack_after,startzeit)
         img_bin = bildverarbeitung(img_stack_after, para);
         merkmal = merkmalExtraktion(img_bin, para);
         % Ergebnisse hinzufuegen
-        evaluationDatarow = [evaluationDatarow, showErgebnis(img_bin,para,merkmal)];
+        evaluationDatarow = [evaluationDatarow, showErgebnis(para,merkmal)];
         evaluation = [evaluation; evaluationDatarow];
 
         % Fortschritt dokumentieren!

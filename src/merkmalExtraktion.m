@@ -3,8 +3,23 @@ function m_out = merkmalExtraktion(img_in,para)
 % ------------------------- Merkmale Extraktion -----------------------------
 % ***************************************************************************
 
-% ------------------------Porenidentifikation
-m_out.porositaet  = porost(img_in);
+% ------------------------Porositaet
+m_out.porenraum.porositaet  = porost(img_in)*100;  % [%]
+
+% ------------------------ Porenverteilung und Median
+if (para.SwitchPorenV)
+    porenraum = poroverteil(img_in);
+    img_pore = porenraum.hist;
+    porengroesse_prozent = max(porenraum.poratio);
+    m_out.porenraum.porengroesse = find(porenraum.poratio == porengroesse_prozent);
+    m_out.porenraum.porengroesse_prozent = porengroesse_prozent;
+    m_out.porenraum.poren_median = median(img_pore(img_pore>0));
+    m_out.porenraum.verteilung = porenraum.poratio;
+else
+    m_out.porenraum.porengroesse_prozent = false;
+    m_out.porenraum.porengroesse = false;
+end
+
 % ------------------------Spezifische Oberflaeche (Marching Cubes)
 x = 0:para.scaling:para.scaling*(size(img_in,1)-1);
 y = 0:para.scaling:para.scaling*(size(img_in,2)-1);
@@ -37,7 +52,7 @@ if isstruct(node)
     wl = sum(cellfun('length',{node.links}));
     
     skel2 = Graph2Skel3D(node,link,w,l,h);
-    [A2,node2,link2] = Skel2Graph3D(skel2,0);
+    [~,node2,link2] = Skel2Graph3D(skel2,0);
     if isstruct(node2)
         % calculate new total length of network
         wl_new = sum(cellfun('length',{node2.links}));
@@ -48,24 +63,72 @@ if isstruct(node)
             wl = wl_new;
             
             skel2 = Graph2Skel3D(node2,link2,w,l,h);
-            [A2,node2,link2] = Skel2Graph3D(skel2,3);
+            [~,node2,link2] = Skel2Graph3D(skel2,3);
             
             wl_new = sum(cellfun('length',{node2.links}));
             
         end
     end
-    m_out.steg.A = A2;
-    m_out.steg.node = node2;
-    m_out.steg.link = link2;
+    knotenanzahl = [];
+    sum_knoten = [];
+    angle = [];
+    for i = 1:length(link2)
+        sum_temp = 0;
+        for k=1:length(link2(i).point)-1
+            [x1,y1,z1]=ind2sub([w,l,h],link2(i).point(k));
+            [x2,y2,z2]=ind2sub([w,l,h],link2(i).point(k+1));
+            xx = (x1-x2)*para.scaling;
+            yy = (y1-y2)*para.scaling;
+            zz = (z1-z2)*para.spacing;
+            sum_temp = sum_temp+sqrt(xx*xx+yy*yy+zz*zz);
+        end
+        sum_knoten = [sum_knoten; sum_temp];
+        [steg_1(1),steg_1(2),steg_1(3)] = ind2sub([w,l,h],link2(i).point(1));
+        [steg_2(1),steg_2(2),steg_2(3)] = ind2sub([w,l,h],link2(i).point(end));
+        vector_temp = steg_1-steg_2;
+        if vector_temp(3) < 0
+            vector_temp = -vector_temp;
+        end
+        angle_xy = atan2(vector_temp(2),vector_temp(1))*180/pi; %0¡ã positive x-Richtung, 90¡ãpositive y-Richtung, 180¡ã/-180¡ã negative x-Richtung, -90¡ã negative y-Richtung
+        angle_z = atan2(sqrt(vector_temp(1)^2+vector_temp(2)^2),vector_temp(3))*180/pi; % 0¡ã entspricht Steg in z-Richtung, 90¡ã entspricht Steg in xy-Richtung
+        angle = [angle;angle_xy,angle_z];
+    end
+    angle_xyz = zeros(length(angle),1);
+    for i = 1:length(angle)
+        if angle(i,2) < 45
+            angle_xyz(i) = 3;
+        elseif angle(i,1)<45 && angle(i,1)>-45||angle(i,1)>135 || angle(i,1)<-135
+            angle_xyz(i) = 1;
+        else
+            angle_xyz(i) = 2;
+        end
+    end
+    m_out.steg.orientation(1) = sum(angle_xyz == 1)/length(angle_xyz)*100;      
+    m_out.steg.orientation(2) = sum(angle_xyz == 2)/length(angle_xyz)*100;        
+    m_out.steg.orientation(3) = sum(angle_xyz == 3)/length(angle_xyz)*100;        
+
+    for i = 1:length(node2)
+        knotenanzahl = [knotenanzahl;length(node2(i).links)];
+    end
+    m_out.steg.lengthKnoten = sum(sum_knoten)/length(sum_knoten);
+    m_out.steg.anzahlKnoten = length(node2);
+    m_out.steg.endKnoten = sum(knotenanzahl ==1)/length(knotenanzahl)*100;
+    m_out.steg.dreiKnoten = sum(knotenanzahl ==3)/length(knotenanzahl)*100;
+    m_out.steg.vierKnoten = sum(knotenanzahl ==4)/length(knotenanzahl)*100;
+    m_out.steg.fuenfKnoten = sum(knotenanzahl ==5)/length(knotenanzahl)*100;
     m_out.skelett = skel2;
-    m_out.ausschnitt = img_in;
+    m_out.struktur = img_in;
     m_out.issteg = true;
 else
+    m_out.steg.endKnoten = 0;
+    m_out.steg.dreiKnoten = 0;
+    m_out.steg.vierKnoten = 0;
+    m_out.steg.fuenfKnoten = 0;
     m_out.issteg = false;
 end
-% addpath('C:\Users\fuxia\Documents\Thesis\code\Moritz')
-% m_out = callCLSM(img_in);
+
 if(para.ShowDetails && para.switchMode == 0)
-    fprintf(['Actuelle Porositaet ist:  ' num2str(m_out.porositaet*100) ' %%.\n']);
+    fprintf(['Actuelle Porositaet ist:  ' num2str(m_out.porenraum.porositaet) ' %%.\n']);
 end
+
 end
