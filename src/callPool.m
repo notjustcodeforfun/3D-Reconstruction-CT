@@ -6,7 +6,7 @@ function filename_end = callPool(para,img_stack_after,startzeit)
     for i = 1:numel(parameterNames) 
         evaluation{end+1} = parameterNames{i};
     end
-    evaluation = [evaluation, 'Porositaet:', 'Spezifische Oberflaeche:', 'Anzahl Objekte:', 'Knotenanzahl:', 'Endpunkte %:', '3 Stege %:', '4 Stege %:', '5 Stege %:', 'Durchschnittliche Steglaenge:','Porengroesse:','Anteil: '];
+    evaluation = [evaluation, 'Porositaet:', 'Spezifische Oberflaeche:', 'Anzahl Objekte:', 'Knotenanzahl:', 'Endpunkte %:', '3 Stege %:', '4 Stege %:', '5 Stege %:', 'Durchschnittliche Steglaenge:','Porengroesse:','Anteil: ','x-Richtung','y-Richtung','z-Richtung'];
     
     % Berechnen aller Kombinationen
     for i = 1:length(para.combinations)

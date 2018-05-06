@@ -18,7 +18,7 @@ merkmalsraum = cell2table(importRaw(2:end,:));
 % merkmalsraum.Properties.VariableNames = importRaw(1,:); doesnt work, because of :
 % and % in variable names so you have to set it by hand
 
-variableNames = {'Probe','Kth','ElementSize','MinVolume','Porositaet','SpeOberflaeche','NObjects','NNodes','NodesEnd','Nodes3','Nodes4','Nodes5','NodeLength','Porengroesse','PorengroesseAnteil'};
+variableNames = {'Probe','Kth','ElementSize','MinVolume','Porositaet','SpeOberflaeche','NObjects','NNodes','NodesEnd','Nodes3','Nodes4','Nodes5','NodeLength','Porengroesse','PorengroesseAnteil','xRichtung','yRichtung','zRichtung'};
 merkmalsraum.Properties.VariableNames = variableNames;
 % Clear temporary variables
 clearvars importRaw variableNames;

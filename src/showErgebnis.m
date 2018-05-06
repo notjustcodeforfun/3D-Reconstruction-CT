@@ -18,9 +18,9 @@ end
 
 % ------------------------ Werte zurueckgeben:
 if para.switchMode == 1
-    erg = {merkmal.porenraum.porositaet, merkmal.SpezOberf, merkmal.ObjektAnzahl, merkmal.steg.anzahlKnoten, merkmal.steg.endKnoten, merkmal.steg.dreiKnoten, merkmal.steg.vierKnoten, merkmal.steg.fuenfKnoten, merkmal.steg.lengthKnoten, merkmal.porenraum.porengroesse, merkmal.porenraum.porengroesse_prozent};
+    erg = {merkmal.porenraum.porositaet, merkmal.SpezOberf, merkmal.ObjektAnzahl, merkmal.steg.anzahlKnoten, merkmal.steg.endKnoten, merkmal.steg.dreiKnoten, merkmal.steg.vierKnoten, merkmal.steg.fuenfKnoten, merkmal.steg.lengthKnoten, merkmal.porenraum.porengroesse, merkmal.porenraum.porengroesse_prozent,merkmal.steg.orientation(1),merkmal.steg.orientation(2),merkmal.steg.orientation(3)};
 else 
-    erg = [merkmal.porenraum.porositaet, merkmal.SpezOberf, merkmal.ObjektAnzahl, merkmal.steg.anzahlKnoten, merkmal.steg.endKnoten, merkmal.steg.dreiKnoten, merkmal.steg.vierKnoten, merkmal.steg.fuenfKnoten, merkmal.steg.lengthKnoten, merkmal.porenraum.porengroesse, merkmal.porenraum.porengroesse_prozent];
+    erg = [merkmal.porenraum.porositaet, merkmal.SpezOberf, merkmal.ObjektAnzahl, merkmal.steg.anzahlKnoten, merkmal.steg.endKnoten, merkmal.steg.dreiKnoten, merkmal.steg.vierKnoten, merkmal.steg.fuenfKnoten, merkmal.steg.lengthKnoten, merkmal.porenraum.porengroesse, merkmal.porenraum.porengroesse_prozent,merkmal.steg.orientation(1),merkmal.steg.orientation(2),merkmal.steg.orientation(3)];
 end
 
 end

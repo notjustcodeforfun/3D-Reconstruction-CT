@@ -4,23 +4,27 @@ function output = param(datatyp)
 % ***************************************************************************
 
 %% ------------------------ Tool einstellen
-output.switchMode               = 0;             % 0: PID Regler, 1: Pool Berechnung, 2: Genetische Algorithmus
-output.dataTyp                  = datatyp;       % 1 :CLSM  0:CT   2:Generierte Struktur manipuliert 
+output.switchMode               = 1;             % 0: PID Regler, 1: Pool Berechnung, 2: Genetische Algorithmus
+if nargin == 0
+    output.dataTyp              = 0;             % 1 :CLSM  0:CT   2:Generierte Struktur manipuliert (manuell einstellen)
 
+else
+    output.dataTyp              = datatyp;
+end
 %% ------------------------ PID Regeler (output.switchMode == 0)
 output.Zyklen                   = 1;             % Anzahl von Wiederholung der for-Schleife
 output.Kth                      = 1;           % multi. coeff. to threshhold adjustment
 output.Kp                       = 1.3;           % Propotionscoeffizient der Regelung
 output.Ki                       = 0.1 ;          % I Glied der Regler
 output.ab                       = 0.005;         % Abbruch Schwellwert
-output.ShowDetails              = 1;             % Anzeigen des aktuellen Zustand (Porositaet)
+output.ShowDetails              = 0;             % Anzeigen des aktuellen Zustand (Porositaet)
 
 %% ------------------------ Parameterpool (output.switchMode == 1)
 % Wenn der Parameterpool verwendet wird, werden alle Kombinationen des
 % parameterpools durchgerechnet.
-output.pool.Kth                 = 0.5:0.1:2.5;
+output.pool.Kth                 = 0.2:0.1:3;
 output.pool.Elementsize         = 1:1:5;
-output.pool.MinVolume           = 10:20:100;
+output.pool.MinVolume           = 10:30:500;
 
 %% ------------------------ Genetic Algorithm (output.switchMode == 2)
 output.genetic.pop_size         = 4;            % Bevoelkerung
@@ -43,7 +47,6 @@ output.factors.nObjects         = 0.05;
 output.factors.sizePoren        = 0.5;
 %% ------------------------ Parameter von Umgebung
 output.sigma_gauss              = 5;
-% output.SwitchBaSiC     = 0;                    % BaSic filter (Bildvorverarbeitung)
 output.SwitchVolume             = 1;             % Volumen Filter
 output.SwitchPorenV             = 1;             % Porenverteilung berechnen
 output.switchDOG                = 1; 
