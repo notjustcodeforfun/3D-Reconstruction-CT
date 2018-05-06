@@ -22,7 +22,7 @@ output.ShowDetails              = 0;             % Anzeigen des aktuellen Zustan
 %% ------------------------ Parameterpool (output.switchMode == 1)
 % Wenn der Parameterpool verwendet wird, werden alle Kombinationen des
 % parameterpools durchgerechnet.
-output.pool.Kth                 = 0.2:0.1:3;
+output.pool.Kth                 = 0.1:0.1:3;
 output.pool.Elementsize         = 1:1:5;
 output.pool.MinVolume           = 10:30:500;
 
