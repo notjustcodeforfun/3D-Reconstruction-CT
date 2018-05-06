@@ -3,11 +3,6 @@
 function outputData = GeneticAlgorithm(para,img_stack)
 
 global G ; %当前代
-global fitness_value;%当前代适应度矩阵
-global best_fitness;%历代最佳适应值
-global fitness_avg;%历代平均适应值矩阵
-global best_individual;%历代最佳个体
-global best_generation;%最佳个体出现代
 global img_stack_after
 
 pop_size = para.genetic.pop_size;
@@ -18,26 +13,48 @@ mutate_rate = para.genetic.mutate_rate;
 elitism = para.genetic.elitism;
 
 img_stack_after = img_stack;
-fitness_avg = zeros(generation_size,1);
-fitness_value(pop_size) = 0.;
-best_fitness = 0;
-best_generation = 0;
-initilize(pop_size, chromo_size);%初始化
+grupp_1 = initilize(pop_size, chromo_size);
+grupp_2 = initilize(pop_size, chromo_size);
+grupp_3 = initilize(pop_size, chromo_size);
 for G = 1:generation_size
     fprintf(['Generation: ',num2str(G)])
-    fitness(pop_size,para);  %计算适应度
-    rank(pop_size, chromo_size);  %对个体按适应度大小进行排序
-    selection(pop_size, chromo_size, elitism);%选择操作
-    crossover(pop_size, chromo_size, cross_rate);%交叉操作
-    mutation(pop_size, chromo_size, mutate_rate);%变异操作
+    grupp_1 = fitness(grupp_1,pop_size,para);  
+    grupp_2 = fitness(grupp_2,pop_size,para); 
+    grupp_3 = fitness(grupp_3,pop_size,para);  
+    grupp_1 = rank(grupp_1,pop_size);  
+    grupp_2 = rank(grupp_2,pop_size);  
+    grupp_3 = rank(grupp_3,pop_size);  
+    grupp_1 = immigration(grupp_3, grupp_1, pop_size);
+    grupp_2 = immigration(grupp_1, grupp_2, pop_size);
+    grupp_3 = immigration(grupp_2, grupp_3, pop_size);
+    grupp_1 = selection(grupp_1, pop_size, elitism);
+    grupp_2 = selection(grupp_2, pop_size, elitism);
+    grupp_3 = selection(grupp_3, pop_size, elitism);
+    grupp_1 = crossover(grupp_1, pop_size, chromo_size, cross_rate);
+    grupp_2 = crossover(grupp_2, pop_size, chromo_size, cross_rate);
+    grupp_3 = crossover(grupp_3, pop_size, chromo_size, cross_rate);
+    grupp_1 = mutation(grupp_1, pop_size, chromo_size, mutate_rate);
+    grupp_2 = mutation(grupp_2, pop_size, chromo_size, mutate_rate);
+    grupp_3 = mutation(grupp_3, pop_size, chromo_size, mutate_rate);
 end
-plotGA(generation_size);%打印算法迭代过程
-m = best_individual;%获得最佳个体
+if grupp_1.best_fitness>grupp_2.best_fitness
+    if grupp_1.best_fitness>grupp_3.best_fitness
+        best_grupp = grupp_1;
+    else
+        best_grupp = grupp_3;
+    end
+elseif grupp_2.best_fitness<grupp_3.best_fitness
+    best_grupp = grupp_3;
+else 
+    best_grupp = grupp_2;
+end
+plotGA(generation_size,best_grupp);
+m = best_grupp.best_individual;
 outputData.para.Kth = (2^4*m(1)+2^3*m(2)+2^2*m(3)+2^1*m(4)+2^0*m(5))/10+0.1;
 outputData.para.Elementsize = 2^3*m(6)+2^2*m(7)+2^1*m(8)+2^0*m(9)+1;
 outputData.para.MinVolume = (2^3*m(10)+2^2*m(11)+2^1*m(12)+2^0*m(13))*20+20;
-outputData.bestDistance = 1/best_fitness;%获得最佳适应度
-outputData.bestGeneration = best_generation;%获得最佳个体出现代
+outputData.best_fitness = 1/best_grupp.best_fitness;
+outputData.bestGeneration = best_grupp.best_generation;
 [outputData.merkmal.porositaet,outputData.merkmal.endKnoten,outputData.merkmal.stegLaenge,outputData.merkmal.objectAnzahl]= callPrototyp(outputData.para.Kth,outputData.para.Elementsize,outputData.para.MinVolume,para);
 clear global
 end
