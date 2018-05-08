@@ -94,7 +94,7 @@ if isstruct(node)
         angle = [angle;angle_xy,angle_z];
     end
     angle_xyz = zeros(length(angle),1);
-    for i = 1:length(angle)
+    for i = 1:size(angle,1) 
         if angle(i,2) < 45
             angle_xyz(i) = 3;
         elseif angle(i,1)<45 && angle(i,1)>-45||angle(i,1)>135 || angle(i,1)<-135

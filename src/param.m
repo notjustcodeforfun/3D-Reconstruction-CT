@@ -4,17 +4,18 @@ function output = param(datatyp)
 % ***************************************************************************
 
 %% ------------------------ Tool einstellen
-output.switchMode               = 1;             % 0: PID Regler, 1: Pool Berechnung, 2: Genetische Algorithmus
+output.switchMode               = 0;             % 0: PID Regler, 1: Pool Berechnung, 2: Genetische Algorithmus
 if nargin == 0
-    output.dataTyp              = 0;             % 1 :CLSM  0:CT   2:Generierte Struktur manipuliert (manuell einstellen)
+    output.dataTyp              = 1;             % 1 :CLSM  0:CT   2:Generierte Struktur manipuliert (manuell einstellen)
 
 else
     output.dataTyp              = datatyp;
 end
+
 %% ------------------------ PID Regeler (output.switchMode == 0)
 output.Zyklen                   = 1;             % Anzahl von Wiederholung der for-Schleife
 output.Kth                      = 1;           % multi. coeff. to threshhold adjustment
-output.Kp                       = 1.3;           % Propotionscoeffizient der Regelung
+output.Kp                       = 1;           % Propotionscoeffizient der Regelung
 output.Ki                       = 0.1 ;          % I Glied der Regler
 output.ab                       = 0.005;         % Abbruch Schwellwert
 output.ShowDetails              = 0;             % Anzeigen des aktuellen Zustand (Porositaet)
@@ -24,7 +25,7 @@ output.ShowDetails              = 0;             % Anzeigen des aktuellen Zustan
 % parameterpools durchgerechnet.
 output.pool.Kth                 = 0.1:0.1:3;
 output.pool.Elementsize         = 1:1:5;
-output.pool.MinVolume           = 10:30:500;
+output.pool.MinVolume           = 10:30:800;
 
 %% ------------------------ Genetic Algorithm (output.switchMode == 2)
 output.genetic.pop_size         = 4;            % Bevoelkerung
@@ -46,14 +47,15 @@ output.factors.lLink            = 0.5;
 output.factors.nObjects         = 0.05;
 output.factors.sizePoren        = 0.5;
 %% ------------------------ Parameter von Umgebung
+output.switchResolution         = 1;             % Aufloesung anpassen
 output.sigma_gauss              = 5;
 output.SwitchVolume             = 1;             % Volumen Filter
-output.SwitchPorenV             = 1;             % Porenverteilung berechnen
-output.switchDOG                = 1; 
+output.SwitchPorenV             = 0;             % Porenverteilung berechnen
+output.switchDOG                = 0; 
 output.Elementsize              = 5;             % Groesse der Strukturelement, Einheit [voxel]
-output.scaling                  = 1;             % Massstab x,y
-output.spacing                  = 1;             % Massstab z  
-output.MinVolume                = 300;           % Min. Volumen von Volumenfilter
+output.scaling                  = 0.075;             % Massstab x,y
+output.spacing                  = 0.075;             % Massstab z  
+output.MinVolume                = 0;           % Min. Volumen von Volumenfilter
 output.skip                     = 1;             % Bild neu aufbauen
 output.skip_thresh              = 10;
 
@@ -70,13 +72,16 @@ output.z2                       = 200;
 %% Bildstapel laden:
 if output.dataTyp == 1
     output.datapath = 'C:\Users\fuxia\Documents\Thesis\code\prototyp\Data\img_stack.mat';
-    fprintf(['Datetype: ','CLSM\n']);
+    output.resolution               = 240;            % die Aufloesung des Bildes, [nm]
+    fprintf(['Datetype: ','CLSM ','Aufloesung: ', num2str(output.resolution) ' nm\n']);
+    
 elseif output.dataTyp == 2
     output.datapath = 'D:\Projekte\Poroese_Materialien\Data\Vorverarbeitet\GenerierteStrukturen\GenerierteStrukturen_DOG1.mat';
     fprintf(['Datetype: ','Generierte Struktur 1 manipuliert\n']);    
 else
-    output.datapath = 'C:\Users\fuxia\Documents\Thesis\code\prototyp\Data\img_stack_CT240.mat';
-    fprintf(['Datetype: ','CT\n']);
+    output.datapath = 'C:\Users\fuxia\Documents\Thesis\code\prototyp\Data\img_stack_CT660.mat';
+    output.resolution               = 75;            % die Aufloesung des Bildes, [nm]     
+    fprintf(['Datetype: ','CT ','Aufloesung: ', num2str(output.resolution) ' nm\n']);
 end
 
 %% Parameterpool generieren:

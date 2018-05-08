@@ -22,7 +22,7 @@ if para.switchMode == 0
 elseif para.switchMode == 1 % Parameterpool
     fprintf('Pool Berechnung start...\n')
     filename = callPool(para,img_stack_after,startzeit);
-%     merkmalsraum = callMinimierer(para,filename);
+    merkmalsraum = callMinimierer(para,filename);
 
 % Genetische Algorithmus
 elseif para.switchMode == 2
