@@ -19,7 +19,7 @@ while poratio_temp > 0.05
     poratio_temp_vor = poratio_temp;
     if max(poratio)>(1-sum(poratio))
         break
-    elseif (2*r+1)*para.scaling>10||Posum == 0
+    elseif (2*r+1)*para.scaling>9||Posum == 0
         clear poratio hist poratio_r
         hist = false;
         poratio = false;

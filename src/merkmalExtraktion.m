@@ -3,10 +3,10 @@ function m_out = merkmalExtraktion(img_in,para)
 % ------------------------- Merkmale Extraktion -----------------------------
 % ***************************************************************************
 
-% ------------------------Porositaet
+% ------------------------ Porositaet
 m_out.porenraum.porositaet  = porost(img_in)*100;  % [%]
 
-% ------------------------ Porenverteilung und Median
+% ------------------------ Porenverteilung und Porengroesse
 if (para.SwitchPorenV)
     porenraum = poroverteil(img_in,para);
     if porenraum.poratio
@@ -45,9 +45,11 @@ for i = 1:length(F)    % Heron's formula
     S = S + sqrt(p*(p-a)*(p-b)*(p-c));
 end
 m_out.SpezOberf = S/((para.scaling*para.scaling*para.spacing)*(sum(sum(sum(img_in==1)))));
+
 % ------------------------Anzahl frei schwebender Objekte
 cc = bwconncomp(img_in,6);
 m_out.ObjektAnzahl = cc.NumObjects;
+
 % ------------------------Steganalyse
 skel = Skeleton3D(img_in);
 [~,node,link] = Skel2Graph3D(skel,5);
@@ -136,4 +138,5 @@ else
     m_out.steg.fuenfKnoten = 0;
     m_out.issteg = false;
 end
+
 end

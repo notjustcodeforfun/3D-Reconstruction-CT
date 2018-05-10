@@ -3,9 +3,6 @@ function img_out = bildvorverarbeitung(img_in,para)
 % ----------------------- Bildvorverarbeitung  ------------------------------
 % ***************************************************************************
 fprintf('Bildvorverarbeitung ...\n');
-gaussian1 = fspecial('Gaussian', 21, para.sigma_gauss);
-gaussian2 = fspecial('Gaussian', 21, para.sigma_gauss*1.6);
-dog_filter = gaussian1-gaussian2;
 
 %------------------------ Beleuchtungseffektkorrektur (BaSiC Tool)
 if para.dataTyp
@@ -92,7 +89,10 @@ end
 
 %------------------------ Difference of Gaussians filter
 if para.switchDOG
-    fprintf('--------Schaerfen ...\n');
+    gaussian1 = fspecial('Gaussian', 21, para.sigma_gauss);
+    gaussian2 = fspecial('Gaussian', 21, para.sigma_gauss*1.6);
+    dog_filter = gaussian1-gaussian2;
+    fprintf('--------DoG-Filter ...\n');
     for i = 1:size(img_out,3)
         img_out(:,:,i) = imfilter((img_out(:,:,i)), dog_filter, 'replicate');
     end
