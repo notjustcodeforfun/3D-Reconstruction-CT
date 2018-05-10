@@ -4,9 +4,9 @@ function output = param(datatyp)
 % ***************************************************************************
 
 %% ------------------------ Tool einstellen
-output.switchMode               = 0;             % 0: Benutzer-Modus, 1: Pool Berechnung, 2: Genetische Algorithmus
+output.switchMode               = 1;             % 0: Benutzer-Modus, 1: Pool Berechnung, 2: Genetische Algorithmus
 if nargin == 0
-    output.dataTyp              = 1;             % 1 :CLSM  0:CT   2:Generierte Struktur manipuliert (manuell einstellen)
+    output.dataTyp              = 0;             % 1 :CLSM  0:CT   2:Generierte Struktur manipuliert (manuell einstellen)
 
 else
     output.dataTyp              = datatyp;
@@ -50,7 +50,7 @@ output.sigma_gauss              = 5;
 output.SwitchVolume             = 1;             % Volumen Filter
 output.SwitchPorenV             = 1;             % Porenverteilung berechnen
 output.switchDOG                = 0; 
-output.switchGauss              = 0;
+output.switchGauss              = 0;             % Gauss filter
 output.scaling                  = 0.24;          % Massstab x,y [um]
 output.spacing                  = 0.24;          % Massstab z  [um]
 output.skip                     = 1;             % Bild neu aufbauen
