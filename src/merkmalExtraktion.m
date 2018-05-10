@@ -3,17 +3,24 @@ function m_out = merkmalExtraktion(img_in,para)
 % ------------------------- Merkmale Extraktion -----------------------------
 % ***************************************************************************
 
-% ------------------------Porositaet
+% ------------------------ Porositaet
 m_out.porenraum.porositaet  = porost(img_in)*100;  % [%]
 
-% ------------------------ Porenverteilung und Median
+% ------------------------ Porenverteilung und Porengroesse
 if (para.SwitchPorenV)
-    porenraum = poroverteil(img_in);
-    img_pore = porenraum.hist;
-    porengroesse_prozent = max(porenraum.poratio);
-    m_out.porenraum.porengroesse = find(porenraum.poratio == porengroesse_prozent);
-    m_out.porenraum.porengroesse_prozent = porengroesse_prozent;
-    m_out.porenraum.poren_median = median(img_pore(img_pore>0));
+    porenraum = poroverteil(img_in,para);
+    if porenraum.poratio
+        porengroesse_prozent = max(porenraum.poratio);
+        r_max_up = porenraum.poratio_r(porenraum.poratio == porengroesse_prozent);
+        r_max_down = r_max_up-2;
+        k_1 = para.scaling*(2*r_max_up+1);
+        k_2 = para.scaling*(2*r_max_down+1);
+        m_out.porenraum.porengroesse = (k_1 + k_2)/2;
+        m_out.porenraum.porengroesse_prozent = porengroesse_prozent*100;
+    else
+        m_out.porenraum.porengroesse = false;
+        m_out.porenraum.porengroesse_prozent = false;
+    end
     m_out.porenraum.verteilung = porenraum.poratio;
 else
     m_out.porenraum.porengroesse_prozent = false;
@@ -38,12 +45,14 @@ for i = 1:length(F)    % Heron's formula
     S = S + sqrt(p*(p-a)*(p-b)*(p-c));
 end
 m_out.SpezOberf = S/((para.scaling*para.scaling*para.spacing)*(sum(sum(sum(img_in==1)))));
+
 % ------------------------Anzahl frei schwebender Objekte
 cc = bwconncomp(img_in,6);
 m_out.ObjektAnzahl = cc.NumObjects;
+
 % ------------------------Steganalyse
 skel = Skeleton3D(img_in);
-[~,node,link] = Skel2Graph3D(skel,0);
+[~,node,link] = Skel2Graph3D(skel,5);
 w = size(skel,1);
 l = size(skel,2);
 h = size(skel,3);
@@ -52,7 +61,7 @@ if isstruct(node)
     wl = sum(cellfun('length',{node.links}));
     
     skel2 = Graph2Skel3D(node,link,w,l,h);
-    [~,node2,link2] = Skel2Graph3D(skel2,0);
+    [~,node2,link2] = Skel2Graph3D(skel2,5);
     if isstruct(node2)
         % calculate new total length of network
         wl_new = sum(cellfun('length',{node2.links}));
@@ -63,7 +72,7 @@ if isstruct(node)
             wl = wl_new;
             
             skel2 = Graph2Skel3D(node2,link2,w,l,h);
-            [~,node2,link2] = Skel2Graph3D(skel2,3);
+            [~,node2,link2] = Skel2Graph3D(skel2,5);
             
             wl_new = sum(cellfun('length',{node2.links}));
             
@@ -79,7 +88,7 @@ if isstruct(node)
             [x2,y2,z2]=ind2sub([w,l,h],link2(i).point(k+1));
             xx = (x1-x2)*para.scaling;
             yy = (y1-y2)*para.scaling;
-            zz = (z1-z2)*para.spacing;
+            zz = (z1-z2)*para.spacing;                    
             sum_temp = sum_temp+sqrt(xx*xx+yy*yy+zz*zz);
         end
         sum_knoten = [sum_knoten; sum_temp];
@@ -94,7 +103,7 @@ if isstruct(node)
         angle = [angle;angle_xy,angle_z];
     end
     angle_xyz = zeros(length(angle),1);
-    for i = 1:length(angle)
+    for i = 1:size(angle,1) 
         if angle(i,2) < 45
             angle_xyz(i) = 3;
         elseif angle(i,1)<45 && angle(i,1)>-45||angle(i,1)>135 || angle(i,1)<-135
@@ -120,15 +129,14 @@ if isstruct(node)
     m_out.struktur = img_in;
     m_out.issteg = true;
 else
+    m_out.steg.orientation = [false false false];
+    m_out.steg.lengthKnoten = 0;
+    m_out.steg.anzahlKnoten = 0;
     m_out.steg.endKnoten = 0;
     m_out.steg.dreiKnoten = 0;
     m_out.steg.vierKnoten = 0;
     m_out.steg.fuenfKnoten = 0;
     m_out.issteg = false;
-end
-
-if(para.ShowDetails && para.switchMode == 0)
-    fprintf(['Actuelle Porositaet ist:  ' num2str(m_out.porenraum.porositaet) ' %%.\n']);
 end
 
 end
