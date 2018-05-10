@@ -4,11 +4,11 @@ function img_out = bildvorverarbeitung(img_in,para)
 % ***************************************************************************
 fprintf('Bildvorverarbeitung ...\n');
 gaussian1 = fspecial('Gaussian', 21, para.sigma_gauss);
-gaussian2 = fspecial('Gaussian', 21, para.sigma_gauss*1.6);  %imgaussfilt
+gaussian2 = fspecial('Gaussian', 21, para.sigma_gauss*1.6);
 dog_filter = gaussian1-gaussian2;
 
 %------------------------ Beleuchtungseffektkorrektur (BaSiC Tool)
-if ~para.dataTyp
+if para.dataTyp
     fprintf('--------Beleuchtungseffektkorrektur ...\n');
     % estimate flatfield and darkfield
     [flatfield, darkfield] = BaSiC(img_in,'darkfield','true','lambda',2.0,'lambda_dark',2.0);
@@ -23,10 +23,11 @@ end
 
 if para.switchRotCut
     fprintf('--------Bilddrehen und -beschneiden ...\n');
+    
     if para.switchResolution
         resolutionFaktor = 240/para.resolution;
         halfinterval = ceil((resolutionFaktor*(para.x2-para.x1+1))/2);                 %240 nm as standard resolution
-        mid = round((para.x2-para.x1)/2);
+        mid = round((para.x2+para.x1)/2);
         if (mid-halfinterval)<1
             x1 = 1;
             x2 = halfinterval*2;
@@ -39,7 +40,7 @@ if para.switchRotCut
         end
         
         halfinterval = ceil((resolutionFaktor*(para.y2-para.y1+1))/2);                 %240 nm as standard resolution
-        mid = round((para.y2-para.y1)/2);
+        mid = round((para.y2+para.y1)/2);
         if (mid-halfinterval)<1
             y1 = 1;
             y2 = halfinterval*2;
@@ -52,7 +53,7 @@ if para.switchRotCut
         end
         
         halfinterval = ceil((resolutionFaktor*(para.z2-para.z1+1))/2);                 %240 nm as standard resolution
-        mid = round((para.z2-para.z1)/2);
+        mid = round((para.z2+para.z1)/2);
         if (mid-halfinterval)<1
             z1 = 1;
             z2 = halfinterval*2;
@@ -71,15 +72,12 @@ if para.switchRotCut
         z1 = para.z1;
         z2 = para.z2;
     end
-    img_temp = uint8(zeros((x2-x1)+1,(y2-y1)+1,(z2-z1)+1));
     
-    for i = z1:z2
-        if para.rot
-            img_cut = imrotate(img_in(:,:,i), para.rot);
-        else
-            img_cut = img_in(:,:,i);
-        end
-        img_temp(:,:,i) = img_cut(x1:x2,y1:y2);
+    if para.rot
+        img_cut = imrotate3(img_in,para.rot,[0 0 1]);
+        img_temp = img_cut(x1:x2,y1:y2,z1:z2);
+    else
+        img_temp = img_in(x1:x2,y1:y2,z1:z2);
     end
 else
     img_temp = img_in;
@@ -98,9 +96,12 @@ if para.switchDOG
     for i = 1:size(img_out,3)
         img_out(:,:,i) = imfilter((img_out(:,:,i)), dog_filter, 'replicate');
     end
-    % fprintf('--------Gaussfiltern ...\n');
-    %     img_out = imgaussfilt3(img_out, 3);
-    
 end
+
+if para.switchGauss
+    fprintf('--------Gaussfiltern ...\n');
+    img_out = imgaussfilt3(img_out, 1.5);
+end
+
 fprintf('Digitales Modell automatisch rekonstruieren ...\n');
 end

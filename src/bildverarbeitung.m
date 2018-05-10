@@ -11,14 +11,16 @@ img_out = false(size(img_in));
 for i = 1:size(img_in,3)
     img_out(:,:,i) = imbinarize(img_in(:,:,i),(para.Kth*graythresh(img_in(:,:,i))));
 end
-% ------------------------- Morph. Operation
-img_out = imclose(img_out,strel('sphere',para.Elementsize));
 
+% ------------------------- Morph. Operation
+if para.Elementsize
+img_out = imclose(img_out,strel('sphere',para.Elementsize));
+end
+% img_out = imopen(img_out,strel('sphere',1));
 % ------------------------- Optimierung nach Volumen
 if para.SwitchVolume
     img_out = volumenfilter(img_out,para.MinVolume,6);
 end
-
 end
 
 
