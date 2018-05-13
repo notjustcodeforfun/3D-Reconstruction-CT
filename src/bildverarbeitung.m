@@ -19,7 +19,7 @@ end
 % img_out = imopen(img_out,strel('sphere',1));
 % ------------------------- Optimierung nach Volumen
 if para.SwitchVolume
-    img_out = volumenfilter(img_out,para.MinVolume,6);
+    img_out = volumenfilt(img_out,para.MinVolume,6);
 end
 end
 

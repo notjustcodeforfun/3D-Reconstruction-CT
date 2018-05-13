@@ -13,8 +13,8 @@ if (para.SwitchPorenV)
         porengroesse_prozent = max(porenraum.poratio);
         r_max_up = porenraum.poratio_r(porenraum.poratio == porengroesse_prozent);
         r_max_down = r_max_up-2;
-        k_1 = para.scaling*(2*r_max_up+1);
-        k_2 = para.scaling*(2*r_max_down+1);
+        k_1 = para.resolution_ref*(2*r_max_up+1);
+        k_2 = para.resolution_ref*(2*r_max_down+1);
         m_out.porenraum.porengroesse = (k_1 + k_2)/2;
         m_out.porenraum.porengroesse_prozent = porengroesse_prozent*100;
     else
@@ -28,9 +28,9 @@ else
 end
 
 % ------------------------Spezifische Oberflaeche (Marching Cubes)
-x = 0:para.scaling:para.scaling*(size(img_in,1)-1);
-y = 0:para.scaling:para.scaling*(size(img_in,2)-1);
-z = 0:para.spacing:para.spacing*(size(img_in,3)-1);
+x = 0:para.resolution_ref:para.resolution_ref*(size(img_in,1)-1);
+y = 0:para.resolution_ref:para.resolution_ref*(size(img_in,2)-1);
+z = 0:para.resolution_ref:para.resolution_ref*(size(img_in,3)-1);
 [X,Y,Z] = meshgrid(x,y,z);
 [F,V] = MarchingCubes(X,Y,Z,img_in,0.5);
 S = 0;
@@ -44,7 +44,7 @@ for i = 1:length(F)    % Heron's formula
     p = (a+b+c)/2;
     S = S + sqrt(p*(p-a)*(p-b)*(p-c));
 end
-m_out.SpezOberf = S/((para.scaling*para.scaling*para.spacing)*(sum(sum(sum(img_in==1)))));
+m_out.SpezOberf = S/((para.resolution_ref*para.resolution_ref*para.resolution_ref)*(sum(sum(sum(img_in==1)))));
 
 % ------------------------Anzahl frei schwebender Objekte
 cc = bwconncomp(img_in,6);
@@ -86,9 +86,9 @@ if isstruct(node)
         for k=1:length(link2(i).point)-1
             [x1,y1,z1]=ind2sub([w,l,h],link2(i).point(k));
             [x2,y2,z2]=ind2sub([w,l,h],link2(i).point(k+1));
-            xx = (x1-x2)*para.scaling;
-            yy = (y1-y2)*para.scaling;
-            zz = (z1-z2)*para.spacing;                    
+            xx = (x1-x2)*para.resolution_ref;
+            yy = (y1-y2)*para.resolution_ref;
+            zz = (z1-z2)*para.resolution_ref;                    
             sum_temp = sum_temp+sqrt(xx*xx+yy*yy+zz*zz);
         end
         sum_knoten = [sum_knoten; sum_temp];

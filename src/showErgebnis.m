@@ -6,11 +6,11 @@ function erg = showErgebnis(para,merkmal)
 %------------------------ Daten anschauen
 if para.ShowDetails
     fprintf(['Final result ---------\n1.  Porositaet = ', num2str(merkmal.porenraum.porositaet), ' %%\n']);
-    fprintf(['2.  Spezifische Oberflaeche = ' num2str(merkmal.SpezOberf) ' [um2/um3]\n']);
+    fprintf(['2.  Spezifische Oberflaeche = ' num2str(merkmal.SpezOberf) ' [nm2/nm3]\n']);
     fprintf(['3.  Anzahl der Objekte = ' num2str(merkmal.ObjektAnzahl) '\n']);
     fprintf(['4.  Knotenanzahl (Ausschnitt) = ' num2str(merkmal.steg.anzahlKnoten) ', davon ' num2str(merkmal.steg.endKnoten) '%% Endpunkte, ' num2str(merkmal.steg.dreiKnoten) '%% Knoten mit 3 Stegen, ' num2str(merkmal.steg.vierKnoten)  '%% mit 4 Stegen, ' num2str(merkmal.steg.fuenfKnoten)  '%% mit 5 Stegen\n']);
-    fprintf(['5.  Durchschnittliche Knotenlaenge (Ausschnitt) = ' num2str(merkmal.steg.lengthKnoten) ' um \n']);
-    fprintf(['6.  Nominale Porengroesse = ' num2str(merkmal.porenraum.porengroesse)  ' um mit ', num2str(merkmal.porenraum.porengroesse_prozent) ' %%\n']);
+    fprintf(['5.  Durchschnittliche Knotenlaenge (Ausschnitt) = ' num2str(merkmal.steg.lengthKnoten) ' nm \n']);
+    fprintf(['6.  Nominale Porengroesse = ' num2str(merkmal.porenraum.porengroesse)  ' nm mit ', num2str(merkmal.porenraum.porengroesse_prozent) ' %%\n']);
     fprintf(['7.  Stegorientierung: ' num2str(merkmal.steg.orientation(1)),'%% in x-Richtung, ', num2str(merkmal.steg.orientation(2)) '%% in y-Richtung,' num2str(merkmal.steg.orientation(3))  '%% in z-Richtung \n']);
 
 end
