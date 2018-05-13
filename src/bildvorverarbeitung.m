@@ -22,7 +22,7 @@ if para.switchRotCut
     fprintf('--------Bilddrehen und -beschneiden ...\n');
     
     if para.switchResolution
-        resolutionFaktor = 240/para.resolution;
+        resolutionFaktor = para.resolution_ref/para.resolution;
         halfinterval = ceil((resolutionFaktor*(para.x2-para.x1+1))/2);                 %240 nm as standard resolution
         mid = round((para.x2+para.x1)/2);
         if (mid-halfinterval)<1

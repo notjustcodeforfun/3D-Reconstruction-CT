@@ -1,4 +1,4 @@
-function [img_out,object] = volumenfilter(img_in,MinVol,n)
+function [img_out,object] = volumenfilt(img_in,MinVol,n)
 if nargin ==2
     n = 6;
 end
