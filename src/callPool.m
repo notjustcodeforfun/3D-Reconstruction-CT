@@ -6,7 +6,7 @@ function filename_end = callPool(para,img_stack_after,startzeit)
     for i = 1:numel(parameterNames) 
         evaluation{end+1} = parameterNames{i};
     end
-    evaluation = [evaluation, 'Porositaet:', 'Spezifische Oberflaeche:', 'Anzahl Objekte:', 'Knotenanzahl:', 'Endpunkte %:', '3 Stege %:', '4 Stege %:', '5 Stege %:', 'Durchschnittliche Steglaenge:','Porengroesse:','mit Anteil: ','x-Richtung','y-Richtung','z-Richtung'];
+    evaluation = [evaluation, 'Porositaet:', 'Spezifische Oberflaeche:', 'Anzahl Objekte:', 'Knotenanzahl:', 'Endpunkte %:', '3 Stege %:', '4 Stege %:', '5 Stege %:', 'Durchschnittliche Steglaenge:','Porengroesse:','Sigma: ','x-Richtung','y-Richtung','z-Richtung'];
     
     % Berechnen aller Kombinationen
     for i = 1:size((para.combinations),2)
@@ -24,7 +24,7 @@ function filename_end = callPool(para,img_stack_after,startzeit)
         evaluation = [evaluation; evaluationDatarow];
 
         % Fortschritt dokumentieren!
-        if mod(i,10) == 0
+        if mod(i,2) == 0
             fprintf("%i/%i gerechnet!\n",i,size(para.combinations,2));
             %Als xls speichern
             xlswrite(strcat(filename{1}, '_', startzeit,'.xlsx'), evaluation);

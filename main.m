@@ -5,14 +5,14 @@ startzeit = datestr(datetime, formatOut);
 para = param;
 load(para.datapath);
 img_stack_after = bildvorverarbeitung(img_stack, para);
-
+tic
 % Benutzer-Modus
 if para.switchMode == 0
     fprintf('Benutzer-Modus start...\n')
     img_bin = bildverarbeitung(img_stack_after, para);
     merkmal = merkmalExtraktion(img_bin, para);
     ergebnis = showErgebnis(para,merkmal);
-    
+    toc
 % Pool Berechnung
 elseif para.switchMode == 1 % Parameterpool
     fprintf('Pool Berechnung start...\n')
