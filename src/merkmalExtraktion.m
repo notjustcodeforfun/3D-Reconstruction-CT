@@ -9,7 +9,7 @@ m_out.porenraum.porositaet  = porost(img_in)*100;  % [%]
 % ------------------------ Porenverteilung und Porengroesse
 if (para.SwitchPorenV)
     porenraum = porverteil(img_in,para);
-    histPoren = porenraum(porenraum>0);
+    histPoren = 2*porenraum(porenraum>0)+1;
     [muHat,sigmaHat] = normfit(histPoren);
     m_out.porenraum.porengroesse = muHat;
     m_out.porenraum.porengroesse_sigma = sigmaHat;

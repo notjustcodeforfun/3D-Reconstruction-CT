@@ -10,15 +10,16 @@ r = 1;
 Posum = sum(sum(sum(img_pore == 1)));
 % i = 1;
 while poratio_temp > 0.01 && Posum>0
-    se = strel('cube',r);
+    se = strel('sphere',r);
 %     poratio_r(i) = r;
     img_temp = double(imopen(img_pore,se))*r;
     hist(img_temp>hist) = r;
     poratio_temp = (sum(sum(sum(img_temp>0))))/Posum;
 %     poratio(i) = -(poratio_temp-poratio_temp_vor);
 %     poratio_temp_vor = poratio_temp;
-%     if max(poratio)>(1-sum(poratio))
-%         break
+    if r>20&&poratio_temp>0.99
+        break
+    end
 %     elseif (2*r+1)*para.resolution_ref>8||Posum == 0   %9um
 %         clear poratio hist poratio_r
 %         hist = false;

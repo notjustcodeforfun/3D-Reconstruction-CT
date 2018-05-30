@@ -9,9 +9,9 @@ tic
 % Benutzer-Modus
 if para.switchMode == 0
     fprintf('Benutzer-Modus start...\n')
-    img_bin = bildverarbeitung(img_stack_after, para);
-    merkmal = merkmalExtraktion(img_bin, para);
-    ergebnis = showErgebnis(para,merkmal);
+        img_bin = bildverarbeitung(img_stack_after, para);
+        merkmal = merkmalExtraktion(img_bin, para);
+        ergebnis = showErgebnis(para,merkmal);
     toc
 % Pool Berechnung
 elseif para.switchMode == 1 % Parameterpool

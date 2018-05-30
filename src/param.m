@@ -6,16 +6,16 @@ function output = param(datatyp)
 %% ------------------------ Tool einstellen
 output.switchMode               = 0;             % 0: Benutzer-Modus, 1: Pool Berechnung, 2: Genetische Algorithmus
 if nargin == 0
-    output.dataTyp              = 1;             % 1 :CLSM  0:CT   2:Generierte Struktur manipuliert (manuell einstellen)
+    output.dataTyp              = 0;             % 1 :CLSM  0:CT   2:Generierte Struktur manipuliert (manuell einstellen)
 
 else
     output.dataTyp              = datatyp;
 end
 
 %% ------------------------ Benutzer-Modus (output.switchMode == 0)
-output.Kth                      = 1.8;             % multi. coeff. to threshhold adjustment
-output.MinVolume                = 700;           % Min. Volumen von Volumenfilter
-output.Elementsize              = 3;             % Groesse der Strukturelement, Einheit [voxel]
+output.Kth                      = 1.71;             % multi. coeff. to threshhold adjustment
+output.MinVolume                = 500;           % Min. Volumen von Volumenfilter
+output.Elementsize              = 2;             % Groesse der Strukturelement, Einheit [voxel]
 output.ShowDetails              = 1;             % Anzeigen des aktuellen Zustand (Porositaet)
 
 %% ------------------------ Parameterpool (output.switchMode == 1)
@@ -27,7 +27,7 @@ output.pool.MinVolume           = [500 700];
 
 %% ------------------------ Genetic Algorithm (output.switchMode == 2)
 output.genetic.pop_size         = 4;            % Bevoelkerung
-output.genetic.generation_size  = 3;            % Generation
+output.genetic.generation_size  = 5;            % Generation
 output.genetic.cross_rate       = 0.85;          % Cross-over Wahrscheinlichkeit
 output.genetic.mutate_rate      = 0.01;         % Mutation Wahrscheinlichkeit
 output.genetic.elitism          = 1;            % 1 fuer Elitismus
@@ -37,17 +37,17 @@ output.soll.porositaet          = 80;           % [%] porositaet optimal
 output.soll.porositaet_min      = 70;           % [%] porositaet min.
 output.soll.porositaet_max      = 90;           % [%] porositaet  max.
 
-output.soll.nodesEnd            = 20;           % [%] Endknoten
-output.soll.nodesEnd_min        = 20;           % [%] Endknoten
-output.soll.nodesEnd_max        = 30;           % [%] Endknoten
+% output.soll.nodesEnd            = 20;           % [%] Endknoten
+% output.soll.nodesEnd_min        = 20;           % [%] Endknoten
+% output.soll.nodesEnd_max        = 30;           % [%] Endknoten
 
-output.soll.lLink               = 3500;           % steglaenge [nm]
-output.soll.lLink_min           = 2500;           % steglaenge [nm]
-output.soll.lLink_max           = 4000;           % steglaenge [nm]
+output.soll.lLink               = 4.000;           % steglaenge [nm]
+output.soll.lLink_min           = 3.200;           % steglaenge [nm]
+output.soll.lLink_max           = 4.400;           % steglaenge [nm]
 
-output.soll.sizePoren           = 4000;            % porengroesse
-output.soll.sizePoren_min       = 3200;            % porengroesse
-output.soll.sizePoren_max       = 4400;            % porengroesse
+output.soll.sizePoren           = 5.000;            % porengroesse
+output.soll.sizePoren_min       = 4.000;            % porengroesse
+output.soll.sizePoren_max       = 6.000;            % porengroesse
 
 output.factors.porositaet       = 1;             
 output.factors.nodesEnd         = 1;
@@ -58,7 +58,7 @@ output.factors.sizePoren        = 0.5;
 output.switchResolution         = 1;             % Aufloesung anpassen
 output.sigma_gauss              = 1.5;
 output.SwitchVolume             = 1;             % Volumen Filter
-output.SwitchPorenV             = 0;             % Porenverteilung berechnen
+output.SwitchPorenV             = 1;             % Porenverteilung berechnen
 output.SwitchSpezOber           = 0;              %spezifische Oberfl?che berechnen
 output.switchDOG                = 0; 
 output.switchGauss              = 1;             % Gauss filter
