@@ -1,6 +1,6 @@
 % Genetic Algorithm
 
-function outputData = GeneticAlgorithm(para,img_stack)
+function merk_out = GeneticAlgorithm(para,img_stack)
 
 global G ; %µ±Ç°´ú
 global img_stack_after
@@ -50,11 +50,12 @@ else
 end
 plotGA(generation_size,best_grupp);
 m = best_grupp.best_individual;
-outputData.para.Kth = (2^4*m(1)+2^3*m(2)+2^2*m(3)+2^1*m(4)+2^0*m(5))/10+0.1;
-outputData.para.Elementsize = 2^3*m(6)+2^2*m(7)+2^1*m(8)+2^0*m(9)+1;
-outputData.para.MinVolume = (2^3*m(10)+2^2*m(11)+2^1*m(12)+2^0*m(13))*20+20;
-outputData.best_fitness = 1/best_grupp.best_fitness;
+outputData.para.Kth = (2^6*m(1)+2^5*m(2)+2^4*m(3)+2^3*m(4)+2^2*m(5)+2^1*m(6)+2^0*m(7))/100+0.6;
+outputData.para.Elementsize = 2^2*m(8)+2^1*m(9)+2^0*m(10); 
+outputData.para.MinVolume = (2^2*m(11)+2^1*m(12)+2^0*m(13))*100;
+outputData.best_fitness = best_grupp.best_fitness;
 outputData.bestGeneration = best_grupp.best_generation;
-[outputData.merkmal.porositaet,outputData.merkmal.endKnoten,outputData.merkmal.stegLaenge,outputData.merkmal.objectAnzahl]= callPrototyp(outputData.para.Kth,outputData.para.Elementsize,outputData.para.MinVolume,para);
+merk_out = callPrototyp(outputData.para.Kth,outputData.para.Elementsize,outputData.para.MinVolume,para);
+merk_out.para = [outputData.para.Kth,outputData.para.Elementsize,outputData.para.MinVolume];
 clear global
 end

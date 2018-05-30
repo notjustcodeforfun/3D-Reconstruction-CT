@@ -98,10 +98,8 @@ if para.switchDOG
     end
 end
 
-if para.switchGauss
+if para.switchGauss && ~para.dataTyp
     fprintf('--------Gaussfiltern ...\n');
-    img_out = imgaussfilt3(img_out, 1.5);
+    img_out = imgaussfilt3(img_out, para.sigma_gauss);
 end
-
-fprintf('Digitales Modell automatisch rekonstruieren ...\n');
 end
