@@ -13,9 +13,9 @@ else
 end
 
 %% ------------------------ Benutzer-Modus (output.switchMode == 0)
-output.Kth                      = 1.71;             % multi. coeff. to threshhold adjustment
+output.Kth                      = 2.5;             % multi. coeff. to threshhold adjustment
 output.MinVolume                = 500;           % Min. Volumen von Volumenfilter
-output.Elementsize              = 2;             % Groesse der Strukturelement, Einheit [voxel]
+output.Elementsize              = 1;             % Groesse der Strukturelement, Einheit [voxel]
 output.ShowDetails              = 1;             % Anzeigen des aktuellen Zustand (Porositaet)
 
 %% ------------------------ Parameterpool (output.switchMode == 1)
@@ -58,7 +58,7 @@ output.factors.sizePoren        = 0.5;
 output.switchResolution         = 1;             % Aufloesung anpassen
 output.sigma_gauss              = 1.5;
 output.SwitchVolume             = 1;             % Volumen Filter
-output.SwitchPorenV             = 1;             % Porenverteilung berechnen
+output.SwitchPorenV             = 0;             % Porenverteilung berechnen
 output.SwitchSpezOber           = 0;              %spezifische Oberfl?che berechnen
 output.switchDOG                = 0; 
 output.switchGauss              = 1;             % Gauss filter
